@@ -1,4 +1,5 @@
 import './globals.css'
+import SessionProvider from './components/SessionProvider'
 
 export const metadata = {
     title: '뷰티로그',
@@ -8,7 +9,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="ko">
-            <body>{children}</body>
+            <body>
+                <SessionProvider>
+                    {children}
+                </SessionProvider>
+            </body>
         </html>
     )
 }

@@ -1,14 +1,18 @@
 'use client'
 
 import { useState } from 'react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 function MyTabView() {
+    const { data: session, status } = useSession();
     const [showLoginModal, setShowLoginModal] = useState(false);
 
     const handleGoogleLogin = () => {
-        // TODO: Implement actual Google OAuth login
-        console.log('Google login clicked');
-        alert('구글 로그인 기능은 준비 중입니다!');
+        signIn('google');
+    };
+
+    const handleLogout = () => {
+        signOut();
     };
 
     return (
@@ -17,12 +21,24 @@ function MyTabView() {
             <section className="my-profile">
                 <div className="my-avatar-wrapper">
                     <div className="my-avatar">
-                        <span className="my-avatar-emoji">👸</span>
+                        {session?.user?.image ? (
+                            <img
+                                src={session.user.image}
+                                alt="프로필"
+                                style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
+                            />
+                        ) : (
+                            <span className="my-avatar-emoji">👸</span>
+                        )}
                     </div>
                     <div className="my-level-badge">Lv.7</div>
                 </div>
-                <h2 className="my-username">뷰티 마스터</h2>
-                <p className="my-bio">매일 더 아름다워지는 중 ✨</p>
+                <h2 className="my-username">
+                    {session?.user?.name || '뷰티 마스터'}
+                </h2>
+                <p className="my-bio">
+                    {session ? `${session.user.email}` : '매일 더 아름다워지는 중 ✨'}
+                </p>
             </section>
 
             {/* Recent Activity */}
@@ -49,16 +65,30 @@ function MyTabView() {
             <section className="my-settings">
                 <h3 className="my-section-title">설정</h3>
                 <ul className="my-menu-list">
-                    <li className="my-menu-item" onClick={() => setShowLoginModal(true)}>
-                        <span className="my-menu-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                <circle cx="12" cy="7" r="4" />
-                            </svg>
-                        </span>
-                        <span className="my-menu-label">계정 관리</span>
-                        <span className="my-menu-arrow">›</span>
-                    </li>
+                    {!session ? (
+                        <li className="my-menu-item" onClick={() => setShowLoginModal(true)}>
+                            <span className="my-menu-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                            </span>
+                            <span className="my-menu-label">로그인</span>
+                            <span className="my-menu-arrow">›</span>
+                        </li>
+                    ) : (
+                        <li className="my-menu-item" onClick={handleLogout}>
+                            <span className="my-menu-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                    <polyline points="16 17 21 12 16 7" />
+                                    <line x1="21" y1="12" x2="9" y2="12" />
+                                </svg>
+                            </span>
+                            <span className="my-menu-label">로그아웃</span>
+                            <span className="my-menu-arrow">›</span>
+                        </li>
+                    )}
                 </ul>
             </section>
 
