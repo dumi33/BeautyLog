@@ -1,0 +1,51 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #ffffff;
+  --bg-soft: #fafafa;
+  --surface: #ffffff;
+  --surface-card: #ffffff;
+  --point: #f4c2c2;
+  --point-soft: #fce8e8;
+  --rose: #e08b8b;
+  --rose-soft: #fce8e8;
+  --lavender: #b8a8d4;
+  --lavender-soft: #f0ebf8;
+  --sage: #8bc4a8;
+  --sage-soft: #e8f5ee;
+  --text: #1a1a2e;
+  --text-soft: #6b6b80;
+  --border: rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.08);
+  --radius-2xl: 24px;
+  --radius-xl: 20px;
+  --radius-lg: 16px;
+  --radius-md: 14px;
+  --radius-full: 9999px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+#root {
+  min-height: 100vh;
+}
