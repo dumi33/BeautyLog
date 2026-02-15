@@ -31,6 +31,27 @@
     --radius-full: 9999px;
 }
 
+/* Dark Mode */
+html.dark {
+    --bg: #1a1a2e;
+    --bg-soft: #16213e;
+    --surface: #0f3460;
+    --surface-card: #16213e;
+    --point: #e94560;
+    --point-soft: #533483;
+    --rose: #e94560;
+    --rose-soft: #533483;
+    --lavender: #9d8bb8;
+    --lavender-soft: #3a2a52;
+    --sage: #6bb892;
+    --sage-soft: #2a4a3a;
+    --text: #eaeaea;
+    --text-soft: #a8a8b8;
+    --border: rgba(255, 255, 255, 0.1);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
 html {
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
@@ -130,6 +151,30 @@ body {
     height: 2px;
     background: var(--text);
     border-radius: 1px;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    font-size: 1.25rem;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.dark-mode-toggle:hover {
+    background: var(--point-soft);
+    transform: scale(1.1);
+}
+
+.dark-mode-toggle:active {
+    transform: scale(0.95);
 }
 
 /* ===== Bottom Navigation ===== */

@@ -1,6 +1,32 @@
 'use client'
 
+import { useState, useEffect } from 'react';
+
 function TopBar() {
+    const [isDark, setIsDark] = useState(false);
+
+    useEffect(() => {
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = savedTheme === 'dark';
+        setIsDark(prefersDark);
+        if (prefersDark) {
+            document.documentElement.classList.add('dark');
+        }
+    }, []);
+
+    const toggleDarkMode = () => {
+        const newIsDark = !isDark;
+        setIsDark(newIsDark);
+        if (newIsDark) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        }
+    };
+
     return (
         <header className="top-bar">
             <div className="top-bar-brand">
@@ -30,10 +56,13 @@ function TopBar() {
                 </span>
                 <h1 className="top-bar-logo">뷰티로그</h1>
             </div>
-            <button type="button" className="top-bar-menu" aria-label="메뉴">
-                <span className="hamburger" />
-                <span className="hamburger" />
-                <span className="hamburger" />
+            <button
+                type="button"
+                className="dark-mode-toggle"
+                onClick={toggleDarkMode}
+                aria-label={isDark ? "라이트 모드로 전환" : "다크 모드로 전환"}
+            >
+                {isDark ? '☀️' : '🌙'}
             </button>
         </header>
     );

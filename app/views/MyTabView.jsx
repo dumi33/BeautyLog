@@ -67,16 +67,6 @@ function MyTabView() {
                         <span className="my-menu-label">계정 관리</span>
                         <span className="my-menu-arrow">›</span>
                     </li>
-                    <li className="my-menu-item">
-                        <span className="my-menu-icon">🎨</span>
-                        <span className="my-menu-label">테마 설정</span>
-                        <span className="my-menu-arrow">›</span>
-                    </li>
-                    <li className="my-menu-item">
-                        <span className="my-menu-icon">ℹ️</span>
-                        <span className="my-menu-label">앱 정보</span>
-                        <span className="my-menu-arrow">›</span>
-                    </li>
                 </ul>
             </section>
         </div>
