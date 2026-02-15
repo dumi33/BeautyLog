@@ -7,23 +7,20 @@
 }
 
 :root {
-    --bg: #ffffff;
-    --bg-soft: #fafafa;
+    /* 배경: 완전 흰색 X → 약한 gray (iOS 미니멀) */
+    --bg: #f7f7f7;
+    --bg-soft: #efefef;
     --surface: #ffffff;
     --surface-card: #ffffff;
-    --point: #f4c2c2;
+    /* 포인트 컬러 1개만, 나머지 무채톤 */
+    --point: #e08b8b;
     --point-soft: #fce8e8;
-    --rose: #e08b8b;
-    --rose-soft: #fce8e8;
-    --lavender: #b8a8d4;
-    --lavender-soft: #f0ebf8;
-    --sage: #8bc4a8;
-    --sage-soft: #e8f5ee;
-    --text: #1a1a2e;
-    --text-soft: #6b6b80;
+    --text: #1a1a1a;
+    --text-soft: #6b6b6b;
     --border: rgba(0, 0, 0, 0.06);
-    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
-    --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.08);
+    /* 그림자 최소화 — 소프트만 */
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04);
+    --shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.06);
     --radius-2xl: 24px;
     --radius-xl: 20px;
     --radius-lg: 16px;
@@ -31,25 +28,19 @@
     --radius-full: 9999px;
 }
 
-/* Dark Mode */
+/* Dark Mode — 동일하게 단일 포인트, 그림자 최소 */
 html.dark {
-    --bg: #1a1a2e;
-    --bg-soft: #16213e;
-    --surface: #0f3460;
-    --surface-card: #16213e;
-    --point: #e94560;
-    --point-soft: #533483;
-    --rose: #e94560;
-    --rose-soft: #533483;
-    --lavender: #9d8bb8;
-    --lavender-soft: #3a2a52;
-    --sage: #6bb892;
-    --sage-soft: #2a4a3a;
-    --text: #eaeaea;
-    --text-soft: #a8a8b8;
-    --border: rgba(255, 255, 255, 0.1);
-    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
-    --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+    --bg: #1a1a1a;
+    --bg-soft: #252525;
+    --surface: #2a2a2a;
+    --surface-card: #2a2a2a;
+    --point: #e08b8b;
+    --point-soft: #3a2525;
+    --text: #f0f0f0;
+    --text-soft: #a0a0a0;
+    --border: rgba(255, 255, 255, 0.08);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 html {
@@ -59,7 +50,7 @@ html {
 }
 
 body {
-    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -67,7 +58,7 @@ body {
     font-weight: 400;
 }
 
-/* ===== App Layout ===== */
+/* ===== App Layout — 여백 중심 ===== */
 .app-layout {
     min-height: 100vh;
     display: flex;
@@ -78,11 +69,12 @@ body {
 .app-content {
     flex: 1;
     overflow: auto;
-    padding: 0 24px;
+    padding: 0 20px;
+    padding-top: 8px;
     padding-bottom: calc(72px + env(safe-area-inset-bottom));
 }
 
-/* ===== Top Bar ===== */
+/* ===== Top Bar — 상단 여백 넓음, 구분선 대신 spacing ===== */
 .top-bar {
     position: sticky;
     top: 0;
@@ -90,12 +82,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 52px;
+    min-height: 56px;
     padding: 0 20px;
-    padding-top: max(env(safe-area-inset-top), 12px);
-    padding-bottom: 12px;
+    padding-top: max(env(safe-area-inset-top), 20px);
+    padding-bottom: 16px;
     background: var(--bg);
-    border-bottom: 1px solid var(--border);
 }
 
 .top-bar-brand {
@@ -177,7 +168,7 @@ body {
     transform: scale(0.95);
 }
 
-/* ===== Bottom Navigation ===== */
+/* ===== Bottom Navigation — 탭 강조는 밑줄만, 구분선 최소 ===== */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -191,7 +182,6 @@ body {
     padding-bottom: env(safe-area-inset-bottom);
     background: var(--surface);
     border-top: 1px solid var(--border);
-    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .bottom-nav-item {
@@ -201,7 +191,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 4px;
-    padding: 8px;
+    padding: 10px 8px;
     border: none;
     background: transparent;
     color: var(--text-soft);
@@ -209,6 +199,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: color 0.2s;
+    position: relative;
 }
 
 .bottom-nav-item:hover {
@@ -217,6 +208,18 @@ body {
 
 .bottom-nav-item.active {
     color: var(--point);
+}
+
+.bottom-nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 2px;
+    background: var(--point);
+    border-radius: 1px;
 }
 
 .bottom-nav-item.active .bottom-nav-icon {
@@ -233,11 +236,196 @@ body {
     font-size: 0.7rem;
 }
 
-/* ===== Home Main Area ===== */
+/* ===== Home Main Area — 여백 중심, 정보 밀도 낮춤 ===== */
 .main.home-main {
-    padding-top: 20px;
+    padding-top: 24px;
+    padding-bottom: 32px;
     max-width: 400px;
     margin: 0 auto;
+}
+
+/* 홈 상단 요약: D-day, 다음 시술까지 눈에 띄게 */
+.home-summary {
+    margin-bottom: 28px;
+}
+.home-summary-badges {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.home-summary-badge {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 20px;
+    min-width: 0;
+    flex: 1;
+    background: var(--surface-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border);
+}
+.home-summary-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-soft);
+}
+.home-summary-value {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--point);
+    letter-spacing: -0.02em;
+}
+
+/* 섹션 제목 */
+.home-section-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-soft);
+    margin-bottom: 12px;
+    padding-left: 2px;
+}
+
+/* 최근 시술 카드: 20px radius, 소프트 쉐도우 */
+.home-recent-section {
+    margin-bottom: 24px;
+}
+.recent-card {
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.2s ease;
+}
+.recent-card:hover {
+    box-shadow: var(--shadow-card-hover);
+}
+.recent-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+.recent-card-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+.recent-card-dday {
+    flex-shrink: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--point);
+}
+.recent-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    font-size: 0.85rem;
+    color: var(--text-soft);
+}
+.recent-card-hospital {
+    font-weight: 500;
+    color: var(--text);
+}
+.recent-card-date {
+    color: var(--text-soft);
+}
+.recent-card-recovery {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: var(--bg-soft);
+    border-radius: var(--radius-md);
+    margin-bottom: 14px;
+}
+.recent-card-recovery-label {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+}
+.recent-card-recovery-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+}
+.recent-card-before-after {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--point);
+    background: var(--point-soft);
+    border: 1px solid rgba(244, 194, 194, 0.5);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.recent-card-before-after:hover {
+    background: rgba(244, 194, 194, 0.35);
+}
+
+/* 오늘 기록 추가 CTA — 강조 */
+.home-cta-section {
+    margin-bottom: 28px;
+}
+.home-cta-primary {
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--point);
+    border: none;
+    border-radius: 20px;
+    box-shadow: var(--shadow-card);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.home-cta-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-card-hover);
+}
+.home-cta-primary:active {
+    transform: translateY(0);
+}
+
+/* 캘린더 보조 영역 */
+.home-calendar-section {
+    margin-bottom: 24px;
+}
+.home-calendar-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-soft);
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.home-calendar-toggle:hover {
+    color: var(--text);
+    background: var(--bg-soft);
+}
+.home-calendar-toggle-icon {
+    font-size: 0.75rem;
+    color: var(--text-soft);
+}
+.home-calendar-wrap {
+    margin-top: 12px;
+}
+.home-calendar-wrap .home-calendar {
+    margin-bottom: 0;
 }
 
 .tab-placeholder {
@@ -256,9 +444,9 @@ body {
     position: relative;
     z-index: 1;
     background: var(--surface-card);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     padding: 20px 16px;
-    margin-bottom: 28px;
+    margin-bottom: 0;
     box-shadow: var(--shadow-card);
     border: 1px solid var(--border);
 }
@@ -584,7 +772,7 @@ body {
     padding: 22px 20px;
     background: var(--surface-card);
     border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
     cursor: pointer;
     transition:
@@ -659,7 +847,7 @@ body {
 
 .menu-desc {
     font-size: 0.82rem;
-    font-weight: 400;
+    font-weight: 300;
     color: var(--text-soft);
     line-height: 1.4;
 }
@@ -675,24 +863,23 @@ body {
     color: var(--card-accent);
     flex-shrink: 0;
     border-radius: var(--radius-full);
-    background: var(--rose-soft);
+    background: var(--point-soft);
     transition: transform 0.25s ease, background 0.25s ease;
 }
 
 .menu-card:hover .menu-arrow,
 .menu-card.hover .menu-arrow {
     transform: translateX(3px);
-    background: rgba(224, 139, 139, 0.2);
+    background: var(--point-soft);
 }
 
-/* ===== Footer ===== */
+/* ===== Footer — 구분선 대신 spacing ===== */
 .footer {
     position: relative;
     z-index: 1;
     text-align: center;
-    margin-top: 40px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
+    margin-top: 48px;
+    padding-top: 32px;
     animation: fadeIn 0.5s ease-out 0.4s both;
 }
 
@@ -785,7 +972,7 @@ body {
 
 .record-item:hover {
     box-shadow: var(--shadow-card-hover);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 .record-date {
@@ -833,7 +1020,7 @@ body {
     text-align: center;
     padding: 32px 20px;
     margin-bottom: 32px;
-    background: linear-gradient(135deg, var(--point-soft) 0%, var(--lavender-soft) 100%);
+    background: var(--point-soft);
     border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-card);
     animation: cardIn 0.5s ease-out 0.1s both;
@@ -872,7 +1059,7 @@ body {
     bottom: -4px;
     right: -4px;
     padding: 6px 14px;
-    background: linear-gradient(135deg, #e08b8b 0%, #c4a8d4 100%);
+    background: var(--point);
     color: white;
     font-size: 0.75rem;
     font-weight: 700;
