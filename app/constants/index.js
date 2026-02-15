@@ -17,7 +17,44 @@ export const RECENT_PROCEDURE = {
     hasBeforeAfter: true,
 };
 // 다음 시술 예정일 (없으면 null) — "다음 시술까지 N일" 표시용
-export const NEXT_PROCEDURE_DATE = null; // 예: "2025.03.15"
+export const NEXT_PROCEDURE_DATE = "2025.03.15"; // 예약 있으면 날짜, 없으면 null
+
+// 맞춤 추천: 사용자 표시명 (섹션 타이틀용)
+export const USER_DISPLAY_NAME = "회원";
+
+// 맞춤 추천 더미: D-day 구간별/시술 타입별 문구
+export const RECOMMEND_AFTERCARE = {
+  title: "지금 필요한 관리",
+  tag: "Aftercare",
+  getCopy: (procedureTitle, dday) => `${procedureTitle} 시술 후 ${dday}일차라 추천드려요`,
+  getContent: (dday) => (dday <= 7 ? "진정·자외선 차단 가이드" : "피부 보습·재생 관리"),
+};
+export const RECOMMEND_PREP = {
+  title: "다음 시술 준비",
+  tag: "Warning",
+  copy: "예약 3일 전이라면",
+  content: "시술 전 금지사항·주의사항",
+};
+export const RECOMMEND_RELATED = {
+  title: "관련 시술/관리 추천",
+  tag: "Guide",
+  getCopy: (procedureTitle) => `${procedureTitle} 후 관리`,
+  content: "콜라겐·진정 관리 콘텐츠",
+};
+
+// 시술별 회복 기록 타임라인 샘플 (D+N 일자별)
+export const PROCEDURE_TIMELINE_SAMPLE = [
+    { dday: 1, date: "2025.02.15", summary: "붓기 조금, 열감 있음" },
+    { dday: 2, date: "2025.02.16", summary: "붓기 줄어듦" },
+    { dday: 3, date: "2025.02.17", summary: "피부 각질 약간" },
+];
+
+// 회복 상태 옵션
+export const RECOVERY_STATE_OPTIONS = [
+    { id: "recovering", label: "회복 중" },
+    { id: "almost", label: "거의 회복" },
+    { id: "done", label: "완료" },
+];
 
 export const RECORD_SAMPLE_BY_TYPE = {
     derma: DERMA_RECORDS,
@@ -51,3 +88,17 @@ export const MENU_ITEMS = [
 export const LIST_VIEWS = {
     "derma-list": { title: "피부과 기록", records: DERMA_RECORDS },
 };
+
+// 예약 관리: 시술 주기 옵션 (주 단위)
+export const CYCLE_OPTIONS = [
+    { value: 4, label: "4주" },
+    { value: 6, label: "6주" },
+    { value: 8, label: "8주" },
+];
+
+// 예약 히스토리 샘플
+export const APPOINTMENT_HISTORY_SAMPLE = [
+    { id: 1, date: "2025.02.14", title: "레이저 토닝" },
+    { id: 2, date: "2024.12.20", title: "피부 스케일링" },
+    { id: 3, date: "2024.11.01", title: "레이저 토닝" },
+];
