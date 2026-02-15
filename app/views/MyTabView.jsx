@@ -1,6 +1,16 @@
 'use client'
 
+import { useState } from 'react';
+
 function MyTabView() {
+    const [showLoginModal, setShowLoginModal] = useState(false);
+
+    const handleGoogleLogin = () => {
+        // TODO: Implement actual Google OAuth login
+        console.log('Google login clicked');
+        alert('구글 로그인 기능은 준비 중입니다!');
+    };
+
     return (
         <div className="my-page">
             {/* Profile Header */}
@@ -15,41 +25,23 @@ function MyTabView() {
                 <p className="my-bio">매일 더 아름다워지는 중 ✨</p>
             </section>
 
-            {/* Beauty Stats */}
-            <section className="my-stats">
-                <h3 className="my-section-title">이번 달 뷰티 기록</h3>
-                <div className="my-stats-grid">
-                    <div className="my-stat-card" style={{ "--card-gradient": "linear-gradient(135deg, #f5e8e8 0%, #efe0e8 100%)" }}>
-                        <div className="my-stat-icon">📝</div>
-                        <div className="my-stat-value">12회</div>
-                        <div className="my-stat-label">기록 횟수</div>
-                    </div>
-                    <div className="my-stat-card" style={{ "--card-gradient": "linear-gradient(135deg, #efe8f2 0%, #ebe0ed 100%)" }}>
-                        <div className="my-stat-icon">🎯</div>
-                        <div className="my-stat-value">87일</div>
-                        <div className="my-stat-label">총 기록 일수</div>
-                    </div>
-                    <div className="my-stat-card" style={{ "--card-gradient": "linear-gradient(135deg, #e8f0eb 0%, #e5ede8 100%)" }}>
-                        <div className="my-stat-icon">🔥</div>
-                        <div className="my-stat-value">5일</div>
-                        <div className="my-stat-label">연속 기록</div>
-                    </div>
-                </div>
-            </section>
-
             {/* Recent Activity */}
             <section className="my-activity">
                 <h3 className="my-section-title">최근 활동</h3>
                 <ul className="my-activity-list">
                     <li className="my-activity-item">
-                        <span className="my-activity-icon">✨</span>
+                        <span className="my-activity-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
+                                <path d="M9 11l3 3L22 4" />
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                            </svg>
+                        </span>
                         <div className="my-activity-body">
                             <span className="my-activity-title">피부과 기록</span>
                             <span className="my-activity-date">2일 전</span>
                         </div>
                         <span className="my-activity-arrow">›</span>
                     </li>
-
                 </ul>
             </section>
 
@@ -57,18 +49,48 @@ function MyTabView() {
             <section className="my-settings">
                 <h3 className="my-section-title">설정</h3>
                 <ul className="my-menu-list">
-                    <li className="my-menu-item">
-                        <span className="my-menu-icon">🔔</span>
-                        <span className="my-menu-label">알림 설정</span>
-                        <span className="my-menu-arrow">›</span>
-                    </li>
-                    <li className="my-menu-item">
-                        <span className="my-menu-icon">👤</span>
+                    <li className="my-menu-item" onClick={() => setShowLoginModal(true)}>
+                        <span className="my-menu-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </span>
                         <span className="my-menu-label">계정 관리</span>
                         <span className="my-menu-arrow">›</span>
                     </li>
                 </ul>
             </section>
+
+            {/* Google Login Modal */}
+            {showLoginModal && (
+                <div className="modal-overlay" onClick={() => setShowLoginModal(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2 className="modal-title">로그인</h2>
+                            <button
+                                className="modal-close"
+                                onClick={() => setShowLoginModal(false)}
+                                aria-label="닫기"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <p className="modal-description">뷰티로그에 로그인하고 기록을 동기화하세요</p>
+                            <button className="google-login-btn" onClick={handleGoogleLogin}>
+                                <svg viewBox="0 0 24 24" width="20" height="20">
+                                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                                </svg>
+                                Google 계정으로 로그인
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

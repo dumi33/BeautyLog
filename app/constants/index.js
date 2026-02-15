@@ -20,8 +20,8 @@ export const TYPE_LABELS = {
 export const TAB_ITEMS = [
     { id: "home", label: "홈", icon: "⌂" },
     { id: "record", label: "기록", icon: "▤" },
-    { id: "news", label: "소식", icon: "◇" },
-    { id: "my", label: "마이", icon: "👤" },
+    { id: "news", label: "소식", icon: "💬" },
+    { id: "my", label: "마이", icon: "🧑" },
 ];
 
 export const MENU_ITEMS = [
