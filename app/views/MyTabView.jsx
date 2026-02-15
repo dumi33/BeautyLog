@@ -1,11 +1,37 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { supabase } from '@/lib/supabase';
 
 function MyTabView() {
     const { data: session, status } = useSession();
     const [showLoginModal, setShowLoginModal] = useState(false);
+
+    // 로그인 성공 시 Supabase에 사용자 정보 저장
+    useEffect(() => {
+        const saveUserToSupabase = async () => {
+            if (session?.user) {
+                const { error } = await supabase
+                    .from('users')
+                    .upsert({
+                        email: session.user.email,
+                        name: session.user.name,
+                        avatar_url: session.user.image,
+                    }, {
+                        onConflict: 'email'
+                    });
+
+                if (error) {
+                    console.error('Error saving user to Supabase:', error);
+                } else {
+                    console.log('User saved to Supabase successfully');
+                }
+            }
+        };
+
+        saveUserToSupabase();
+    }, [session]);
 
     const handleGoogleLogin = () => {
         signIn('google');
