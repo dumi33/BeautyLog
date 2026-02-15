@@ -12,8 +12,6 @@ function useRandomRecordDays(year, month) {
     };
     return {
       derma: pick(4 + Math.floor(Math.random() * 3)), // 4~6일
-      salon: pick(3 + Math.floor(Math.random() * 3)), // 3~5일
-      lash: pick(2 + Math.floor(Math.random() * 2)), // 2~3일
       stamp: pick(3 + Math.floor(Math.random() * 4)), // 외모 맘에 드는 날 3~6일
     };
   }, [year, month]);
@@ -28,30 +26,6 @@ const MENU_ITEMS = [
     gradient: "linear-gradient(135deg, #f5e8e8 0%, #efe0e8 100%)",
     accent: "#d4a5a5",
   },
-  {
-    id: "salon",
-    title: "미용실 기록",
-    description: "컷·펌·염색·관리 이력",
-    icon: "💇‍♀️",
-    gradient: "linear-gradient(135deg, #efe8f2 0%, #ebe0ed 100%)",
-    accent: "#c4a8d4",
-  },
-  {
-    id: "lash",
-    title: "속눈썹·펍 기록",
-    description: "리프팅·펌·관리 일정",
-    icon: "👁️",
-    gradient: "linear-gradient(135deg, #e8f0eb 0%, #e5ede8 100%)",
-    accent: "#a8c4b0",
-  },
-  {
-    id: "sport",
-    title: "필라테스/테니스/헬스 기록",
-    description: "운동·수업·회차 기록",
-    icon: "🏃",
-    gradient: "linear-gradient(135deg, #e3f2f4 0%, #dceef0 100%)",
-    accent: "#6eb5c4",
-  },
 ];
 
 // 샘플 기록 리스트
@@ -62,37 +36,14 @@ const DERMA_RECORDS = [
   { id: 4, date: "2025.01.15", title: "필러 시술", memo: "턱라인" },
 ];
 
-const SALON_RECORDS = [
-  { id: 1, date: "2025.02.12", title: "컷 + 펌", memo: "웨이브 펌" },
-  { id: 2, date: "2025.01.28", title: "염색", memo: "브라운 톤" },
-  { id: 3, date: "2025.01.10", title: "트리트먼트", memo: "손상 모발 관리" },
-];
-
-const LASH_RECORDS = [
-  { id: 1, date: "2025.02.10", title: "속눈썹 리프팅", memo: "펌 + 염색" },
-  { id: 2, date: "2025.01.20", title: "속눈썹 펌", memo: "6주 후 재시술" },
-];
-
-const SPORT_RECORDS = [
-  { id: 1, date: "2025.02.13", title: "필라테스", memo: "매트 1시간" },
-  { id: 2, date: "2025.02.10", title: "헬스", memo: "상체" },
-  { id: 3, date: "2025.02.05", title: "테니스", memo: "1세트" },
-];
-
 const RECORD_SAMPLE_BY_TYPE = {
   derma: DERMA_RECORDS,
-  salon: SALON_RECORDS,
-  lash: LASH_RECORDS,
-  sport: SPORT_RECORDS,
 };
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
 const TYPE_LABELS = {
   derma: "피부과 기록",
-  salon: "미용실 기록",
-  lash: "속눈썹·펍 기록",
-  sport: "필라테스/테니스/헬스 기록",
   stamp: "외모 맘에 드는 날",
 };
 
@@ -234,8 +185,6 @@ function Calendar() {
     if (d === null) return [];
     const types = [];
     if (recordDays.derma.includes(d)) types.push("derma");
-    if (recordDays.salon.includes(d)) types.push("salon");
-    if (recordDays.lash.includes(d)) types.push("lash");
     if (recordDays.stamp.includes(d)) types.push("stamp");
     return types;
   };
@@ -250,9 +199,9 @@ function Calendar() {
   const selectedDayTypes = selectedDate ? getDayTypes(selectedDate.day) : [];
   const dateLabel = selectedDate
     ? `${selectedDate.year}.${String(selectedDate.month + 1).padStart(
-        2,
-        "0"
-      )}.${String(selectedDate.day).padStart(2, "0")}`
+      2,
+      "0"
+    )}.${String(selectedDate.day).padStart(2, "0")}`
     : "";
 
   return (
@@ -293,11 +242,9 @@ function Calendar() {
             <button
               key={i}
               type="button"
-              className={`calendar-day ${d === null ? "empty" : ""} ${
-                isToday(d) ? "today" : ""
-              } ${selectedDate && d === selectedDate.day ? "selected" : ""} ${
-                showStamp ? "has-stamp" : ""
-              }`}
+              className={`calendar-day ${d === null ? "empty" : ""} ${isToday(d) ? "today" : ""
+                } ${selectedDate && d === selectedDate.day ? "selected" : ""} ${showStamp ? "has-stamp" : ""
+                }`}
               onClick={() => handleDayClick(d)}
               disabled={d === null}
             >
@@ -463,9 +410,6 @@ function RecordListView({ title, records, onBack }) {
 
 const LIST_VIEWS = {
   "derma-list": { title: "피부과 기록", records: DERMA_RECORDS },
-  "salon-list": { title: "미용실 기록", records: SALON_RECORDS },
-  "lash-list": { title: "속눈썹·펍 기록", records: LASH_RECORDS },
-  "sport-list": { title: "필라테스/테니스/헬스 기록", records: SPORT_RECORDS },
 };
 
 function RecordTabView() {
@@ -505,8 +449,83 @@ function NewsTabView() {
 
 function MyTabView() {
   return (
-    <div className="tab-placeholder">
-      <p>마이페이지</p>
+    <div className="my-page">
+      {/* Profile Header */}
+      <section className="my-profile">
+        <div className="my-avatar-wrapper">
+          <div className="my-avatar">
+            <span className="my-avatar-emoji">👸</span>
+          </div>
+          <div className="my-level-badge">Lv.7</div>
+        </div>
+        <h2 className="my-username">뷰티 마스터</h2>
+        <p className="my-bio">매일 더 아름다워지는 중 ✨</p>
+      </section>
+
+      {/* Beauty Stats */}
+      <section className="my-stats">
+        <h3 className="my-section-title">이번 달 뷰티 기록</h3>
+        <div className="my-stats-grid">
+          <div className="my-stat-card" style={{ "--card-gradient": "linear-gradient(135deg, #f5e8e8 0%, #efe0e8 100%)" }}>
+            <div className="my-stat-icon">📝</div>
+            <div className="my-stat-value">12회</div>
+            <div className="my-stat-label">기록 횟수</div>
+          </div>
+          <div className="my-stat-card" style={{ "--card-gradient": "linear-gradient(135deg, #efe8f2 0%, #ebe0ed 100%)" }}>
+            <div className="my-stat-icon">🎯</div>
+            <div className="my-stat-value">87일</div>
+            <div className="my-stat-label">총 기록 일수</div>
+          </div>
+          <div className="my-stat-card" style={{ "--card-gradient": "linear-gradient(135deg, #e8f0eb 0%, #e5ede8 100%)" }}>
+            <div className="my-stat-icon">🔥</div>
+            <div className="my-stat-value">5일</div>
+            <div className="my-stat-label">연속 기록</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Recent Activity */}
+      <section className="my-activity">
+        <h3 className="my-section-title">최근 활동</h3>
+        <ul className="my-activity-list">
+          <li className="my-activity-item">
+            <span className="my-activity-icon">✨</span>
+            <div className="my-activity-body">
+              <span className="my-activity-title">피부과 기록</span>
+              <span className="my-activity-date">2일 전</span>
+            </div>
+            <span className="my-activity-arrow">›</span>
+          </li>
+
+        </ul>
+      </section>
+
+      {/* Settings Menu */}
+      <section className="my-settings">
+        <h3 className="my-section-title">설정</h3>
+        <ul className="my-menu-list">
+          <li className="my-menu-item">
+            <span className="my-menu-icon">🔔</span>
+            <span className="my-menu-label">알림 설정</span>
+            <span className="my-menu-arrow">›</span>
+          </li>
+          <li className="my-menu-item">
+            <span className="my-menu-icon">👤</span>
+            <span className="my-menu-label">계정 관리</span>
+            <span className="my-menu-arrow">›</span>
+          </li>
+          <li className="my-menu-item">
+            <span className="my-menu-icon">🎨</span>
+            <span className="my-menu-label">테마 설정</span>
+            <span className="my-menu-arrow">›</span>
+          </li>
+          <li className="my-menu-item">
+            <span className="my-menu-icon">ℹ️</span>
+            <span className="my-menu-label">앱 정보</span>
+            <span className="my-menu-arrow">›</span>
+          </li>
+        </ul>
+      </section>
     </div>
   );
 }
