@@ -8,7 +8,6 @@ import RecordListView from "./views/RecordListView";
 import RecordWriteView from "./views/RecordWriteView";
 import ProcedureDetailView from "./views/ProcedureDetailView";
 import AppointmentManageView from "./views/AppointmentManageView";
-import NewsTabView from "./views/NewsTabView";
 import MyTabView from "./views/MyTabView";
 import { DERMA_RECORDS } from "./constants";
 
@@ -46,8 +45,6 @@ export default function Home() {
                         records={DERMA_RECORDS}
                         onBack={() => setTab("home")}
                     />
-                ) : tab === "news" ? (
-                    <NewsTabView />
                 ) : (
                     <MyTabView onTabChange={setTab} />
                 )}

@@ -24,22 +24,22 @@ export const USER_DISPLAY_NAME = "회원";
 
 // 맞춤 추천 더미: D-day 구간별/시술 타입별 문구
 export const RECOMMEND_AFTERCARE = {
-  title: "지금 필요한 관리",
-  tag: "Aftercare",
-  getCopy: (procedureTitle, dday) => `${procedureTitle} 시술 후 ${dday}일차라 추천드려요`,
-  getContent: (dday) => (dday <= 7 ? "진정·자외선 차단 가이드" : "피부 보습·재생 관리"),
+    title: "지금 필요한 관리",
+    tag: "Aftercare",
+    getCopy: (procedureTitle, dday) => `${procedureTitle} 시술 후 ${dday}일차라 추천드려요`,
+    getContent: (dday) => (dday <= 7 ? "진정·자외선 차단 가이드" : "피부 보습·재생 관리"),
 };
 export const RECOMMEND_PREP = {
-  title: "다음 시술 준비",
-  tag: "Warning",
-  copy: "예약 3일 전이라면",
-  content: "시술 전 금지사항·주의사항",
+    title: "다음 시술 준비",
+    tag: "Warning",
+    copy: "예약 3일 전이라면",
+    content: "시술 전 금지사항·주의사항",
 };
 export const RECOMMEND_RELATED = {
-  title: "관련 시술/관리 추천",
-  tag: "Guide",
-  getCopy: (procedureTitle) => `${procedureTitle} 후 관리`,
-  content: "콜라겐·진정 관리 콘텐츠",
+    title: "관련 시술/관리 추천",
+    tag: "Guide",
+    getCopy: (procedureTitle) => `${procedureTitle} 후 관리`,
+    content: "콜라겐·진정 관리 콘텐츠",
 };
 
 // 시술별 회복 기록 타임라인 샘플 (D+N 일자별)
@@ -70,7 +70,6 @@ export const TYPE_LABELS = {
 export const TAB_ITEMS = [
     { id: "home", label: "홈", icon: "⌂" },
     { id: "record", label: "기록", icon: "▤" },
-    { id: "news", label: "소식", icon: "💬" },
     { id: "my", label: "마이", icon: "🧑" },
 ];
 
