@@ -118,7 +118,7 @@ function HomeView({ onMenuClick }) {
             className="home-cta-primary"
             onClick={() => onMenuClick("record-write")}
           >
-            오늘 기록 추가
+            기록 추가
           </button>
         </section>
 

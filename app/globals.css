@@ -256,11 +256,13 @@ body {
 .home-summary {
     margin-bottom: 28px;
 }
+
 .home-summary-badges {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
 }
+
 .home-summary-badge {
     display: flex;
     flex-direction: column;
@@ -273,17 +275,20 @@ body {
     box-shadow: var(--shadow-card);
     border: 1px solid var(--border);
 }
+
 .home-summary-label {
     font-size: 0.75rem;
     font-weight: 500;
     color: var(--text-soft);
 }
+
 .home-summary-value {
     font-size: 1.35rem;
     font-weight: 700;
     color: var(--point);
     letter-spacing: -0.02em;
 }
+
 .home-summary-badge-btn {
     border: none;
     padding: 16px 20px;
@@ -295,9 +300,11 @@ body {
     color: inherit;
     transition: box-shadow 0.2s;
 }
+
 .home-summary-badge-btn:focus {
     outline: none;
 }
+
 .home-summary-badge-btn:hover {
     box-shadow: var(--shadow-card-hover);
 }
@@ -315,6 +322,7 @@ body {
 .home-recent-section {
     margin-bottom: 24px;
 }
+
 .recent-card {
     background: var(--surface-card);
     border: 1px solid var(--border);
@@ -323,12 +331,15 @@ body {
     box-shadow: var(--shadow-card);
     transition: box-shadow 0.2s ease;
 }
+
 .recent-card:hover {
     box-shadow: var(--shadow-card-hover);
 }
+
 .recent-card-clickable {
     cursor: pointer;
 }
+
 .recent-card-header {
     display: flex;
     align-items: center;
@@ -336,18 +347,21 @@ body {
     gap: 12px;
     margin-bottom: 10px;
 }
+
 .recent-card-title {
     font-size: 1.15rem;
     font-weight: 600;
     color: var(--text);
     letter-spacing: -0.02em;
 }
+
 .recent-card-dday {
     flex-shrink: 0;
     font-size: 0.95rem;
     font-weight: 700;
     color: var(--point);
 }
+
 .recent-card-meta {
     display: flex;
     align-items: center;
@@ -356,13 +370,16 @@ body {
     font-size: 0.85rem;
     color: var(--text-soft);
 }
+
 .recent-card-hospital {
     font-weight: 500;
     color: var(--text);
 }
+
 .recent-card-date {
     color: var(--text-soft);
 }
+
 .recent-card-recovery {
     display: flex;
     align-items: center;
@@ -372,15 +389,18 @@ body {
     border-radius: var(--radius-md);
     margin-bottom: 14px;
 }
+
 .recent-card-recovery-label {
     font-size: 0.8rem;
     color: var(--text-soft);
 }
+
 .recent-card-recovery-value {
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--text);
 }
+
 .recent-card-before-after {
     width: 100%;
     padding: 12px 16px;
@@ -393,6 +413,7 @@ body {
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
 }
+
 .recent-card-before-after:hover {
     background: rgba(244, 194, 194, 0.35);
 }
@@ -401,6 +422,7 @@ body {
 .home-cta-section {
     margin-bottom: 28px;
 }
+
 .home-cta-primary {
     width: 100%;
     padding: 18px 24px;
@@ -414,10 +436,12 @@ body {
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .home-cta-primary:hover {
     transform: translateY(-1px);
     box-shadow: var(--shadow-card-hover);
 }
+
 .home-cta-primary:active {
     transform: translateY(0);
 }
@@ -426,6 +450,7 @@ body {
 .home-calendar-section {
     margin-bottom: 24px;
 }
+
 .home-calendar-toggle {
     width: 100%;
     display: flex;
@@ -441,17 +466,21 @@ body {
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
 }
+
 .home-calendar-toggle:hover {
     color: var(--text);
     background: var(--bg-soft);
 }
+
 .home-calendar-toggle-icon {
     font-size: 0.75rem;
     color: var(--text-soft);
 }
+
 .home-calendar-wrap {
     margin-top: 12px;
 }
+
 .home-calendar-wrap .home-calendar {
     margin-bottom: 0;
 }
@@ -460,6 +489,7 @@ body {
 .home-recommend-section {
     margin-bottom: 28px;
 }
+
 .home-recommend-title {
     font-size: 0.95rem;
     font-weight: 600;
@@ -467,6 +497,7 @@ body {
     margin-bottom: 12px;
     padding-left: 2px;
 }
+
 .home-recommend-scroll {
     display: flex;
     gap: 12px;
@@ -475,9 +506,11 @@ body {
     padding-bottom: 8px;
     -webkit-overflow-scrolling: touch;
 }
+
 .home-recommend-scroll::-webkit-scrollbar {
     height: 4px;
 }
+
 .home-recommend-card {
     flex: 0 0 260px;
     min-width: 260px;
@@ -487,6 +520,7 @@ body {
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
 }
+
 .home-recommend-tag {
     display: inline-block;
     font-size: 0.65rem;
@@ -496,30 +530,36 @@ body {
     border-radius: 4px;
     margin-bottom: 10px;
 }
+
 .home-recommend-tag-aftercare {
     background: var(--point-soft);
     color: var(--point);
 }
+
 .home-recommend-tag-warning {
     background: rgba(220, 180, 80, 0.15);
     color: #b8860b;
 }
+
 .home-recommend-tag-guide {
     background: var(--bg-soft);
     color: var(--text-soft);
 }
+
 .home-recommend-card-title {
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--text);
     margin-bottom: 6px;
 }
+
 .home-recommend-card-desc {
     font-size: 0.8rem;
     color: var(--text-soft);
     margin-bottom: 8px;
     line-height: 1.4;
 }
+
 .home-recommend-card-content {
     font-size: 0.85rem;
     font-weight: 500;
@@ -540,13 +580,16 @@ body {
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
 }
+
 .calendar-expand-btn:hover,
 .calendar-collapse-btn:hover {
     background: var(--point-soft);
 }
+
 .calendar-collapse-btn {
     margin-bottom: 12px;
 }
+
 .calendar-grid-week {
     grid-template-columns: repeat(7, 1fr);
 }
@@ -594,9 +637,101 @@ body {
     color: var(--text);
 }
 
+.record-write-date-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.record-write-date-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.record-date-picker-label {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--point-soft);
+    color: var(--point);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.record-date-picker-label:hover {
+    background: rgba(224, 139, 139, 0.25);
+    transform: scale(1.05);
+}
+
+.record-date-picker-label:active {
+    transform: scale(0.95);
+}
+
+.record-date-input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.record-write-input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: border-color 0.2s;
+}
+
+.record-write-input:focus {
+    outline: none;
+    border-color: var(--point);
+}
+
+.record-write-recovery-group {
+    display: flex;
+    gap: 10px;
+}
+
+.record-write-recovery-btn {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-soft);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.record-write-recovery-btn:hover {
+    color: var(--text);
+    background: var(--surface);
+}
+
+.record-write-recovery-btn.active {
+    color: var(--point);
+    background: var(--point-soft);
+    border-color: var(--point);
+    font-weight: 600;
+}
+
 .record-write-state-row {
     margin-bottom: 16px;
 }
+
 .record-write-state-row:last-child {
     margin-bottom: 0;
 }
@@ -767,11 +902,13 @@ body {
     padding-top: 8px;
     padding-bottom: 32px;
 }
+
 .procedure-detail-main {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
+
 .procedure-detail-card {
     background: var(--surface-card);
     border: 1px solid var(--border);
@@ -779,43 +916,52 @@ body {
     padding: 20px;
     box-shadow: var(--shadow-card);
 }
+
 .procedure-detail-card-title {
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-soft);
     margin-bottom: 16px;
 }
+
 .procedure-detail-info {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
+
 .procedure-detail-info-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 .procedure-detail-info-label {
     font-size: 0.85rem;
     color: var(--text-soft);
 }
+
 .procedure-detail-info-value {
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
 }
+
 .procedure-detail-dday-row .procedure-detail-info-value {
     font-weight: 700;
     color: var(--point);
 }
+
 .procedure-detail-dday {
     font-size: 1.1rem;
 }
+
 .procedure-detail-recovery-btns {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
+
 .procedure-detail-recovery-btn {
     padding: 10px 18px;
     font-size: 0.9rem;
@@ -827,25 +973,30 @@ body {
     cursor: pointer;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
+
 .procedure-detail-recovery-btn:hover {
     color: var(--text);
 }
+
 .procedure-detail-recovery-btn.active {
     color: var(--point);
     background: var(--point-soft);
     border-color: var(--point);
 }
+
 .procedure-detail-next {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
 }
+
 .procedure-detail-next-date {
     font-size: 1rem;
     font-weight: 500;
     color: var(--text);
 }
+
 .procedure-detail-next-edit {
     padding: 8px 14px;
     font-size: 0.85rem;
@@ -857,15 +1008,18 @@ body {
     cursor: pointer;
     transition: background 0.2s;
 }
+
 .procedure-detail-next-edit:hover {
     background: rgba(224, 139, 139, 0.2);
 }
+
 .procedure-detail-timeline {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 0;
 }
+
 .procedure-detail-timeline-item {
     display: grid;
     grid-template-columns: auto auto 1fr;
@@ -874,39 +1028,47 @@ body {
     padding: 14px 0;
     border-bottom: 1px solid var(--border);
 }
+
 .procedure-detail-timeline-item:last-child {
     border-bottom: none;
 }
+
 .procedure-detail-timeline-dday {
     font-size: 0.8rem;
     font-weight: 600;
     color: var(--point);
 }
+
 .procedure-detail-timeline-date {
     font-size: 0.8rem;
     color: var(--text-soft);
 }
+
 .procedure-detail-timeline-summary {
     grid-column: 1 / -1;
     font-size: 0.9rem;
     color: var(--text);
     margin: 4px 0 0;
 }
+
 .procedure-detail-before-after {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
 }
+
 .procedure-detail-ba-col {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
+
 .procedure-detail-ba-label {
     font-size: 0.8rem;
     font-weight: 600;
     color: var(--text-soft);
 }
+
 .procedure-detail-ba-placeholder {
     aspect-ratio: 1;
     background: var(--bg-soft);
@@ -921,11 +1083,13 @@ body {
     padding-top: 8px;
     padding-bottom: 32px;
 }
+
 .appointment-manage-main {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
+
 .appointment-manage-card {
     background: var(--surface-card);
     border: 1px solid var(--border);
@@ -933,6 +1097,7 @@ body {
     padding: 18px 20px;
     box-shadow: var(--shadow-card);
 }
+
 .appointment-manage-card-title {
     font-size: 0.8rem;
     font-weight: 600;
@@ -941,6 +1106,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.02em;
 }
+
 .appointment-manage-summary {
     display: flex;
     flex-direction: column;
@@ -948,22 +1114,26 @@ body {
     align-items: center;
     padding: 24px;
 }
+
 .appointment-manage-summary-label {
     font-size: 0.8rem;
     font-weight: 500;
     color: var(--text-soft);
 }
+
 .appointment-manage-summary-value {
     font-size: 1.75rem;
     font-weight: 700;
     color: var(--point);
     letter-spacing: -0.02em;
 }
+
 .appointment-manage-summary-date {
     font-size: 0.85rem;
     color: var(--text-soft);
     margin-top: 4px;
 }
+
 .appointment-manage-date-input {
     width: 100%;
     padding: 14px 16px;
@@ -975,15 +1145,18 @@ body {
     border-radius: var(--radius-md);
     transition: border-color 0.2s;
 }
+
 .appointment-manage-date-input:focus {
     outline: none;
     border-color: var(--point);
 }
+
 .appointment-manage-cycle-options {
     display: flex;
     gap: 10px;
     margin-bottom: 14px;
 }
+
 .appointment-manage-cycle-btn {
     padding: 10px 18px;
     font-size: 0.9rem;
@@ -995,25 +1168,30 @@ body {
     cursor: pointer;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
+
 .appointment-manage-cycle-btn:hover {
     color: var(--text);
 }
+
 .appointment-manage-cycle-btn.active {
     color: var(--point);
     background: var(--point-soft);
     border-color: var(--point);
 }
+
 .appointment-manage-cycle-custom {
     display: flex;
     align-items: center;
     gap: 12px;
 }
+
 .appointment-manage-label {
     font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-soft);
     min-width: 64px;
 }
+
 .appointment-manage-weeks-input {
     width: 80px;
     padding: 10px 12px;
@@ -1024,15 +1202,18 @@ body {
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
 }
+
 .appointment-manage-weeks-input:focus {
     outline: none;
     border-color: var(--point);
 }
+
 .appointment-manage-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
 .appointment-manage-toggle {
     width: 52px;
     height: 30px;
@@ -1043,10 +1224,12 @@ body {
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s;
 }
+
 .appointment-manage-toggle.on {
     background: var(--point);
     border-color: var(--point);
 }
+
 .appointment-manage-toggle-thumb {
     display: block;
     width: 24px;
@@ -1056,15 +1239,18 @@ body {
     box-shadow: var(--shadow-card);
     transition: transform 0.2s;
 }
+
 .appointment-manage-toggle.on .appointment-manage-toggle-thumb {
     transform: translateX(22px);
 }
+
 .appointment-manage-history {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 0;
 }
+
 .appointment-manage-history-item {
     display: flex;
     align-items: center;
@@ -1073,13 +1259,16 @@ body {
     padding: 14px 0;
     border-bottom: 1px solid var(--border);
 }
+
 .appointment-manage-history-item:last-child {
     border-bottom: none;
 }
+
 .appointment-manage-history-date {
     font-size: 0.85rem;
     color: var(--text-soft);
 }
+
 .appointment-manage-history-title {
     font-size: 0.95rem;
     font-weight: 500;
