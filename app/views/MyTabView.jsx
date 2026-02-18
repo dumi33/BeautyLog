@@ -7,6 +7,46 @@ import { supabase } from '@/lib/supabase';
 function MyTabView({ onTabChange }) {
     const { data: session, status } = useSession();
     const [showLoginModal, setShowLoginModal] = useState(false);
+    const [recentRecords, setRecentRecords] = useState([]);
+
+    // 최근 활동 데이터 가져오기 (마지막 3개)
+    useEffect(() => {
+        const fetchRecent = async () => {
+            if (!session?.user?.email) return;
+
+            try {
+                const { data, error } = await supabase
+                    .from('records')
+                    .select('*')
+                    .eq('user_email', session.user.email)
+                    .order('date', { ascending: false })
+                    .limit(3);
+
+                if (error) throw error;
+                setRecentRecords(data || []);
+            } catch (error) {
+                console.error('Error fetching recent records:', error);
+            }
+        };
+
+        fetchRecent();
+    }, [session]);
+
+    // 날짜 상대 표기 (오늘, 1일 전 등)
+    const formatRelativeDate = (dateStr) => {
+        const target = new Date(dateStr);
+        target.setHours(0, 0, 0, 0);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const diffTime = today - target;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) return '오늘';
+        if (diffDays === 1) return '어제';
+        if (diffDays < 7) return `${diffDays}일 전`;
+        return dateStr.replace(/-/g, '.');
+    };
 
     // 로그인 성공 시 Supabase에 사용자 정보 저장
     useEffect(() => {
@@ -71,19 +111,31 @@ function MyTabView({ onTabChange }) {
             <section className="my-activity">
                 <h3 className="my-section-title">최근 활동</h3>
                 <ul className="my-activity-list">
-                    <li className="my-activity-item" onClick={() => onTabChange?.('record')}>
-                        <span className="my-activity-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
-                                <path d="M9 11l3 3L22 4" />
-                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                            </svg>
-                        </span>
-                        <div className="my-activity-body">
-                            <span className="my-activity-title">피부과 기록</span>
-                            <span className="my-activity-date">2일 전</span>
-                        </div>
-                        <span className="my-activity-arrow">›</span>
-                    </li>
+                    {recentRecords.length > 0 ? (
+                        recentRecords.map((record) => (
+                            <li
+                                key={record.id}
+                                className="my-activity-item"
+                                onClick={() => onTabChange?.('record')}
+                            >
+                                <span className="my-activity-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
+                                        <path d="M9 11l3 3L22 4" />
+                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                                    </svg>
+                                </span>
+                                <div className="my-activity-body">
+                                    <span className="my-activity-title">{record.procedure_title || '일반 기록'}</span>
+                                    <span className="my-activity-date">{formatRelativeDate(record.created_at)}</span>
+                                </div>
+                                <span className="my-activity-arrow">›</span>
+                            </li>
+                        ))
+                    ) : (
+                        <li className="my-activity-empty">
+                            {session ? "최근 활동이 없습니다." : "로그인 후 기록을 확인하세요."}
+                        </li>
+                    )}
                 </ul>
             </section>
 

@@ -9,11 +9,13 @@ import RecordWriteView from "./views/RecordWriteView";
 import ProcedureDetailView from "./views/ProcedureDetailView";
 import AppointmentManageView from "./views/AppointmentManageView";
 import MyTabView from "./views/MyTabView";
+import RecordDetailView from "./views/RecordDetailView";
 import { DERMA_RECORDS } from "./constants";
 
 export default function Home() {
     const [tab, setTab] = useState("home");
     const [view, setView] = useState("home");
+    const [selectedRecord, setSelectedRecord] = useState(null);
 
     return (
         <div className="app-layout">
@@ -25,6 +27,12 @@ export default function Home() {
                         onSave={async (payload) => {
                             console.log("저장:", payload);
                         }}
+                    />
+                ) : view === "record-detail" ? (
+                    <RecordDetailView
+                        record={selectedRecord}
+                        onBack={() => setView("home")}
+                        onSave={(updated) => setSelectedRecord(updated)}
                     />
                 ) : view === "procedure-detail" ? (
                     <ProcedureDetailView onBack={() => setView("home")} />
@@ -42,14 +50,23 @@ export default function Home() {
                 ) : tab === "record" ? (
                     <RecordListView
                         title="피부과 기록"
-                        records={DERMA_RECORDS}
                         onBack={() => setTab("home")}
+                        onRecordClick={(record) => {
+                            setSelectedRecord(record);
+                            setView("record-detail");
+                        }}
                     />
                 ) : (
                     <MyTabView onTabChange={setTab} />
                 )}
             </div>
-            <BottomNav activeTab={tab} onTabChange={setTab} />
+            <BottomNav
+                activeTab={tab}
+                onTabChange={(t) => {
+                    setTab(t);
+                    setView("home"); // 탭 이동 시 상세 뷰(작성 등)에서 메인 탭으로 빠져나오게 설정
+                }}
+            />
         </div>
     );
 }

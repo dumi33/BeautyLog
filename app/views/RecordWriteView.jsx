@@ -1,7 +1,7 @@
-import { RECOVERY_STATE_OPTIONS } from "@/constants";
-
-
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { supabase } from "@/lib/supabase";
+import { RECOVERY_STATE_OPTIONS } from "@/constants";
 
 const STATE_OPTIONS = [
     { id: "swelling", label: "붓기", key: "swelling" },
@@ -33,6 +33,7 @@ function formatDateToInput(date) {
 }
 
 function RecordWriteView({ onBack, onSave }) {
+    const { data: session } = useSession();
     const [date, setDate] = useState(new Date());
     const [hospital, setHospital] = useState("");
     const [procedureTitle, setProcedureTitle] = useState("");
@@ -62,23 +63,39 @@ function RecordWriteView({ onBack, onSave }) {
     };
 
     const handleSave = async () => {
+        if (!session) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
         setSaving(true);
         try {
             const payload = {
-                date: formatDisplayDate(date),
+                user_email: session.user.email,
+                date: date.toISOString().split('T')[0],
                 hospital: hospital.trim(),
-                procedureTitle: procedureTitle.trim(),
-                recoveryState,
-                states,
+                procedure_title: procedureTitle.trim(),
+                recovery_state: recoveryState,
+                states: states,
                 memo: memo.trim(),
-                photoCount: photos.length,
+                photo_count: photos.length,
             };
+
+            const { error } = await supabase
+                .from('records')
+                .insert(payload);
+
+            if (error) throw error;
+
             if (typeof onSave === "function") {
                 await onSave(payload);
             }
             if (typeof onBack === "function") {
                 onBack();
             }
+        } catch (error) {
+            console.error('Error saving record:', error);
+            alert("저장 중 오류가 발생했습니다.");
         } finally {
             setSaving(false);
         }

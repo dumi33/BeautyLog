@@ -167,9 +167,6 @@ function HomeView({ onMenuClick }) {
           </div>
         </section>
       </main>
-      <footer className="footer">
-        <p>토스인앱 · 뷰티 기록</p>
-      </footer>
     </>
   );
 }
