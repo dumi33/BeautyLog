@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { supabase } from '@/lib/supabase';
 
-function MyTabView() {
+function MyTabView({ onTabChange }) {
     const { data: session, status } = useSession();
     const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -38,7 +38,7 @@ function MyTabView() {
     };
 
     const handleLogout = () => {
-        signOut();
+        signOut({ redirect: false });
     };
 
     return (
@@ -57,7 +57,7 @@ function MyTabView() {
                             <span className="my-avatar-emoji">👸</span>
                         )}
                     </div>
-                    <div className="my-level-badge">Lv.7</div>
+
                 </div>
                 <h2 className="my-username">
                     {session?.user?.name || '뷰티 마스터'}
@@ -71,7 +71,7 @@ function MyTabView() {
             <section className="my-activity">
                 <h3 className="my-section-title">최근 활동</h3>
                 <ul className="my-activity-list">
-                    <li className="my-activity-item">
+                    <li className="my-activity-item" onClick={() => onTabChange?.('record')}>
                         <span className="my-activity-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
                                 <path d="M9 11l3 3L22 4" />
