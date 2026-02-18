@@ -46,6 +46,7 @@ function RecordWriteView({ onBack, onSave }) {
     });
     const [memo, setMemo] = useState("");
     const [photos, setPhotos] = useState([]);
+    const [nextAppointment, setNextAppointment] = useState(null); // 'YYYY-MM-DD' 또는 null
     const [saving, setSaving] = useState(false);
 
     const setLevel = (key, value) => {
@@ -158,6 +159,12 @@ function RecordWriteView({ onBack, onSave }) {
             return;
         }
 
+        const inputDateStr = date.toISOString().split('T')[0];
+        if (nextAppointment && nextAppointment < inputDateStr) {
+            alert("다음 예약일은 시술일보다 이전일 수 없습니다.");
+            return;
+        }
+
         setSaving(true);
         try {
             // 1. 이미지 먼저 스토리지에 업로드
@@ -174,9 +181,14 @@ function RecordWriteView({ onBack, onSave }) {
                 procedure_title: procedureTitle.trim(),
                 recovery_state: recoveryState,
                 states: states,
-                memo: memo.trim(),
+                timeline: memo.trim() ? [{
+                    date: date.toISOString().split('T')[0],
+                    content: memo.trim(),
+                    created_at: new Date().toISOString()
+                }] : [],
                 photo_count: photos.length,
-                image_paths: imagePaths, // 새 컬럼 추가 필요
+                image_paths: imagePaths,
+                next_appointment: nextAppointment,
             };
 
             const { error } = await supabase
@@ -218,7 +230,7 @@ function RecordWriteView({ onBack, onSave }) {
                 <section className="record-write-card">
                     <div className="record-write-date-row">
                         <div className="record-write-date-info">
-                            <span className="record-write-label">날짜</span>
+                            <span className="record-write-label">시술 날짜</span>
                             <span className="record-write-date">{formatDisplayDate(date)}</span>
                         </div>
                         <label className="record-date-picker-label">
@@ -241,7 +253,7 @@ function RecordWriteView({ onBack, onSave }) {
                 {/* 시술 정보 카드 */}
                 <section className="record-write-card">
                     <div className="record-write-field-group">
-                        <label className="record-write-label">피부과</label>
+                        <label className="record-write-label">*피부과</label>
                         <input
                             type="text"
                             className="record-write-input"
@@ -251,7 +263,7 @@ function RecordWriteView({ onBack, onSave }) {
                         />
                     </div>
                     <div className="record-write-field-group" style={{ marginTop: '16px' }}>
-                        <label className="record-write-label">시술명</label>
+                        <label className="record-write-label">*시술명</label>
                         <input
                             type="text"
                             className="record-write-input"
@@ -304,10 +316,10 @@ function RecordWriteView({ onBack, onSave }) {
 
                 {/* 사진 업로드 카드 */}
                 <section className="record-write-card">
-                    <span className="record-write-label">사진</span>
-                    <div className="record-write-photos">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                        <span className="record-write-label" style={{ margin: 0 }}>사진</span>
                         {photos.length < 5 && (
-                            <label className="record-write-photo-add">
+                            <label className="record-write-next-add-btn" style={{ cursor: 'pointer' }}>
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -315,9 +327,11 @@ function RecordWriteView({ onBack, onSave }) {
                                     onChange={handlePhotoChange}
                                     className="record-write-photo-input"
                                 />
-                                <span className="record-write-photo-add-inner">+</span>
+                                +
                             </label>
                         )}
+                    </div>
+                    <div className="record-write-photos">
                         {photos.map((file, i) => (
                             <div key={i} className="record-write-photo-preview">
                                 <img
@@ -341,7 +355,7 @@ function RecordWriteView({ onBack, onSave }) {
                 {/* 메모 카드 */}
                 <section className="record-write-card">
                     <label className="record-write-label" htmlFor="record-write-memo">
-                        메모
+                        기록 타임라인
                     </label>
                     <textarea
                         id="record-write-memo"
@@ -349,8 +363,41 @@ function RecordWriteView({ onBack, onSave }) {
                         placeholder="오늘 피부 상태나 따로 적고 싶은 내용을 입력해 주세요."
                         value={memo}
                         onChange={(e) => setMemo(e.target.value)}
-                        rows={4}
+                        rows={2}
                     />
+                </section>
+
+                {/* 다음 예약 카드 */}
+                <section className="record-write-card">
+                    <div
+                        className="record-write-next-header"
+                        onClick={() => !nextAppointment && setNextAppointment(formatDateToInput(new Date()))}
+                    >
+                        <span className="record-write-label" style={{ margin: 0 }}>다음 예약</span>
+                        {!nextAppointment ? (
+                            <button type="button" className="record-write-next-add-btn">
+                                +
+                            </button>
+                        ) : (
+                            <button
+                                type="button"
+                                className="record-write-next-remove-btn"
+                                onClick={(e) => { e.stopPropagation(); setNextAppointment(null); }}
+                            >
+                                ×
+                            </button>
+                        )}
+                    </div>
+                    {nextAppointment && (
+                        <div className="record-write-next-content" style={{ marginTop: '12px' }}>
+                            <input
+                                type="date"
+                                className="record-write-input"
+                                value={nextAppointment}
+                                onChange={(e) => setNextAppointment(e.target.value)}
+                            />
+                        </div>
+                    )}
                 </section>
 
                 {/* 저장 버튼 */}
@@ -363,7 +410,7 @@ function RecordWriteView({ onBack, onSave }) {
                     {saving ? "저장 중…" : "저장"}
                 </button>
             </main>
-        </div>
+        </div >
     );
 }
 

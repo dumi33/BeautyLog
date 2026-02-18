@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import { RECOVERY_STATE_OPTIONS } from "@/constants";
 
@@ -18,26 +18,68 @@ const LEVELS = [
 ];
 
 function RecordDetailView({ record, onBack, onSave }) {
-    const [memo, setMemo] = useState(record?.memo || "");
+    const [timeline, setTimeline] = useState(() => {
+        if (record.timeline && record.timeline.length > 0) return record.timeline;
+        if (record.memo) return [{
+            date: record.date,
+            content: record.memo,
+            created_at: record.created_at || new Date().toISOString()
+        }];
+        return [];
+    });
+    const [newEntry, setNewEntry] = useState({ date: new Date().toISOString().split('T')[0], content: "" });
     const [recoveryState, setRecoveryState] = useState(record?.recovery_state || "recovering");
+    const [nextAppointment, setNextAppointment] = useState(record?.next_appointment || null);
     const [isSaving, setIsSaving] = useState(false);
+    const [showAddForm, setShowAddForm] = useState(false);
 
-    const isMemoChanged = memo !== (record?.memo || "");
+    // D-Day 계산 헬퍼
+    const calculateDday = (targetDate) => {
+        if (!record.date || !targetDate) return 0;
+        const start = new Date(record.date);
+        const target = new Date(targetDate);
+        start.setHours(0, 0, 0, 0);
+        target.setHours(0, 0, 0, 0);
+        return Math.floor((target - start) / (24 * 60 * 60 * 1000));
+    };
+
+    const isTimelineChanged = JSON.stringify(timeline) !== JSON.stringify(record.timeline || (record.memo ? [{
+        date: record.date,
+        content: record.memo,
+        created_at: record.created_at || ""
+    }] : []));
     const isRecoveryChanged = recoveryState !== (record?.recovery_state || "recovering");
-    const isChanged = isMemoChanged || isRecoveryChanged;
+    const isNextAppointmentChanged = nextAppointment !== (record?.next_appointment || null);
+    const isChanged = isTimelineChanged || isRecoveryChanged || isNextAppointmentChanged;
 
     if (!record) return null;
 
     const displayDate = record.date ? record.date.replace(/-/g, '.') : '';
 
+    const dday = useMemo(() => {
+        if (!record.date) return null;
+        // record.date는 'YYYY-MM-DD' 형식으로 가정
+        const [y, m, d] = record.date.split("-").map(Number);
+        const start = new Date(y, m - 1, d);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        start.setHours(0, 0, 0, 0);
+        return Math.floor((today - start) / (24 * 60 * 60 * 1000));
+    }, [record.date]);
+
     const handleUpdate = async () => {
+        if (nextAppointment && record.date && nextAppointment < record.date) {
+            alert("다음 예약일은 시술일보다 이전일 수 없습니다.");
+            return;
+        }
         setIsSaving(true);
         try {
             const { error } = await supabase
                 .from('records')
                 .update({
-                    memo: memo.trim(),
-                    recovery_state: recoveryState
+                    timeline: timeline,
+                    recovery_state: recoveryState,
+                    next_appointment: nextAppointment
                 })
                 .eq('id', record.id);
 
@@ -45,8 +87,9 @@ function RecordDetailView({ record, onBack, onSave }) {
 
             if (onSave) onSave({
                 ...record,
-                memo: memo.trim(),
-                recovery_state: recoveryState
+                timeline: timeline,
+                recovery_state: recoveryState,
+                next_appointment: nextAppointment
             });
             return true;
         } catch (error) {
@@ -84,13 +127,200 @@ function RecordDetailView({ record, onBack, onSave }) {
             </header>
 
             <main className="record-write-main">
-                {/* ... 기존 날짜, 시술 정보, 회복 상태 카드 유지 ... */}
-                <section className="record-write-card">
-                    <div className="record-write-date-info">
-                        <span className="record-write-label">날짜</span>
-                        <span className="record-write-date">{displayDate}</span>
+                <section className="procedure-detail-card">
+                    <h2 className="procedure-detail-card-title">시술 정보</h2>
+                    <div className="procedure-detail-info">
+                        <div className="procedure-detail-info-row">
+                            <span className="procedure-detail-info-label">시술 이름</span>
+                            <span className="procedure-detail-info-value">{record.procedure_title || '기록'}</span>
+                        </div>
+                        <div className="procedure-detail-info-row">
+                            <span className="procedure-detail-info-label">병원</span>
+                            <span className="procedure-detail-info-value">{record.hospital || '정보 없음'}</span>
+                        </div>
+                        <div className="procedure-detail-info-row">
+                            <span className="procedure-detail-info-label">시술일</span>
+                            <span className="procedure-detail-info-value">{displayDate}</span>
+                        </div>
+                        <div className="procedure-detail-info-row procedure-detail-dday-row">
+                            <span className="procedure-detail-info-label">경과</span>
+                            <span className="procedure-detail-info-value procedure-detail-dday">
+                                {dday === 0 ? "D-Day" : dday > 0 ? `D+${dday}` : `D${dday}`}
+                            </span>
+                        </div>
+
+                        <div className="procedure-detail-info-row" style={{ marginTop: '8px', borderTop: '1px dashed var(--border)', paddingTop: '8px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                                <span className="procedure-detail-info-label" style={{ color: 'var(--point)', marginBottom: 0 }}>다음 예약</span>
+                                {!nextAppointment ? (
+                                    <button
+                                        type="button"
+                                        className="record-write-next-add-btn"
+                                        onClick={() => {
+                                            const today = new Date().toISOString().split('T')[0];
+                                            setNextAppointment(today);
+                                        }}
+                                    >
+                                        +
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        className="record-write-next-remove-btn"
+                                        onClick={() => setNextAppointment(null)}
+                                    >
+                                        ×
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                        {nextAppointment && (
+                            <div style={{ marginTop: '8px' }}>
+                                <input
+                                    type="date"
+                                    className="record-write-input"
+                                    value={nextAppointment}
+                                    style={{ fontSize: '0.9rem', padding: '8px 12px' }}
+                                    onChange={(e) => setNextAppointment(e.target.value)}
+                                />
+                            </div>
+                        )}
                     </div>
                 </section>
+
+                <section className="record-write-card">
+                    <span className="record-write-label">회복 상태</span>
+                    <div className="record-write-recovery-group">
+                        {RECOVERY_STATE_OPTIONS.map((option) => (
+                            <button
+                                key={option.id}
+                                type="button"
+                                className={`record-write-recovery-btn ${recoveryState === option.id ? "active" : ""}`}
+                                onClick={() => setRecoveryState(option.id)}
+                            >
+                                {option.label}
+                            </button>
+                        ))}
+                    </div>
+                </section>
+
+                <section className="record-write-card">
+                    <span className="record-write-label">상태 상세</span>
+                    <div className="record-detail-states-row">
+                        {STATE_OPTIONS.map(({ id, label, key }) => {
+                            const levelValue = record.states?.[key];
+                            const levelLabel = LEVELS.find(l => l.value === levelValue)?.label || "없음";
+                            return (
+                                <div key={id} className="record-detail-state-badge">
+                                    <span className="state-label">{label}</span>
+                                    <span className="state-value">{levelLabel}</span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </section>
+
+                {/* 기록 타임라인 섹션 */}
+                <section className="record-write-card">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                        <h2 className="procedure-detail-card-title" style={{ margin: 0 }}>기록 타임라인</h2>
+                        {!showAddForm && (
+                            <button
+                                type="button"
+                                className="record-write-next-add-btn"
+                                onClick={() => setShowAddForm(true)}
+                            >
+                                +
+                            </button>
+                        )}
+                    </div>
+
+                    {/* 타임라인 목록 */}
+                    <div className="record-detail-timeline-list">
+                        {timeline.filter(t => t.content.trim()).length > 0 ? (
+                            [...timeline]
+                                .filter(t => t.content.trim())
+                                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                                .map((entry, idx) => {
+                                    const dValue = calculateDday(entry.date);
+                                    return (
+                                        <div key={idx} className="record-detail-timeline-item">
+                                            <div className="timeline-item-header">
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
+                                                    <span className={`timeline-item-dday ${dValue === 0 ? 'today' : ''}`}>
+                                                        {dValue === 0 ? 'D-Day' : dValue > 0 ? `D+${dValue}` : `D${dValue}`}
+                                                    </span>
+                                                    <span className="timeline-item-date">{entry.date.replace(/-/g, '.')}</span>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    className="timeline-item-delete-btn"
+                                                    onClick={() => {
+                                                        if (confirm("이 기록을 삭제하시겠습니까?")) {
+                                                            setTimeline(prev => prev.filter(t => t.created_at !== entry.created_at));
+                                                        }
+                                                    }}
+                                                >
+                                                    ×
+                                                </button>
+                                            </div>
+                                            <div className="timeline-item-content">{entry.content}</div>
+                                        </div>
+                                    );
+                                })
+                        ) : (
+                            <div style={{ padding: '20px 0', textAlign: 'center', color: 'var(--text-soft)', fontSize: '0.9rem' }}>
+                                기록된 타임라인이 없습니다.
+                            </div>
+                        )}
+                    </div>
+
+                    {/* 타임라인 추가 폼 (조건부 렌더링) */}
+                    {showAddForm && (
+                        <div className="record-detail-timeline-add">
+                            <div className="timeline-add-header">
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+                                    <input
+                                        type="date"
+                                        value={newEntry.date}
+                                        onChange={(e) => setNewEntry(prev => ({ ...prev, date: e.target.value }))}
+                                        className="timeline-date-input"
+                                    />
+                                </div>
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    <button
+                                        type="button"
+                                        className="timeline-add-btn"
+                                        onClick={() => {
+                                            if (!newEntry.content.trim()) return;
+                                            setTimeline(prev => [...prev, { ...newEntry, created_at: new Date().toISOString() }]);
+                                            setNewEntry(prev => ({ ...prev, content: "" }));
+                                            setShowAddForm(false);
+                                        }}
+                                    >
+                                        추가
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="record-write-next-remove-btn"
+                                        onClick={() => setShowAddForm(false)}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            </div>
+                            <textarea
+                                className="record-write-memo"
+                                style={{ marginTop: '8px', minHeight: '80px' }}
+                                value={newEntry.content}
+                                onChange={(e) => setNewEntry(prev => ({ ...prev, content: e.target.value }))}
+                                placeholder="오늘의 회복 상태를 기록해 보세요..."
+                                autoFocus
+                            />
+                        </div>
+                    )}
+                </section>
+
 
                 {record.image_paths && record.image_paths.length > 0 && (
                     <section className="record-write-card">
@@ -114,65 +344,6 @@ function RecordDetailView({ record, onBack, onSave }) {
                         </div>
                     </section>
                 )}
-
-                <section className="record-write-card">
-                    <div className="record-write-field-group">
-                        <label className="record-write-label">피부과</label>
-                        <div className="record-detail-text">{record.hospital || '입력 정보 없음'}</div>
-                    </div>
-                    <div className="record-write-field-group" style={{ marginTop: '16px' }}>
-                        <label className="record-write-label">시술명</label>
-                        <div className="record-detail-text">{record.procedure_title || '입력 정보 없음'}</div>
-                    </div>
-                </section>
-
-                <section className="record-write-card">
-                    <span className="record-write-label">회복 상태</span>
-                    <div className="record-write-recovery-group">
-                        {RECOVERY_STATE_OPTIONS.map((option) => (
-                            <button
-                                key={option.id}
-                                type="button"
-                                className={`record-write-recovery-btn ${recoveryState === option.id ? "active" : ""}`}
-                                onClick={() => setRecoveryState(option.id)}
-                            >
-                                {option.label}
-                            </button>
-                        ))}
-                    </div>
-                </section>
-
-                <section className="record-write-card">
-                    <span className="record-write-label">상태 상세</span>
-                    {STATE_OPTIONS.map(({ id, label, key }) => (
-                        <div key={id} className="record-write-state-row">
-                            <span className="record-write-state-name">{label}</span>
-                            <div className="record-write-levels">
-                                {LEVELS.map(({ value, label: levelLabel }) => (
-                                    <div
-                                        key={value}
-                                        className={`record-write-level-btn ${record.states?.[key] === value ? "active" : ""}`}
-                                        style={{ cursor: 'default' }}
-                                    >
-                                        {levelLabel}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </section>
-
-                {/* 메모 카드 (수정 가능 버전) */}
-                <section className="record-write-card">
-                    <label className="record-write-label">메모 수정</label>
-                    <textarea
-                        className="record-write-memo"
-                        value={memo}
-                        onChange={(e) => setMemo(e.target.value)}
-                        placeholder="메모를 입력해 주세요"
-                        rows={5}
-                    />
-                </section>
 
                 {/* 저장 버튼 (수정사항이 있을 때만 하단에 표시) */}
                 {isChanged && (
