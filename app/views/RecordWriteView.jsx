@@ -316,7 +316,7 @@ function RecordWriteView({ onBack, onSave }) {
 
                 {/* 사진 업로드 카드 */}
                 <section className="record-write-card">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span className="record-write-label" style={{ margin: 0 }}>사진</span>
                         {photos.length < 5 && (
                             <label className="record-write-next-add-btn" style={{ cursor: 'pointer' }}>
@@ -331,25 +331,27 @@ function RecordWriteView({ onBack, onSave }) {
                             </label>
                         )}
                     </div>
-                    <div className="record-write-photos">
-                        {photos.map((file, i) => (
-                            <div key={i} className="record-write-photo-preview">
-                                <img
-                                    src={URL.createObjectURL(file)}
-                                    alt=""
-                                    className="record-write-photo-img"
-                                />
-                                <button
-                                    type="button"
-                                    className="record-write-photo-remove"
-                                    onClick={() => removePhoto(i)}
-                                    aria-label="삭제"
-                                >
-                                    ×
-                                </button>
-                            </div>
-                        ))}
-                    </div>
+                    {photos.length > 0 && (
+                        <div className="record-write-photos" style={{ marginTop: '12px' }}>
+                            {photos.map((file, i) => (
+                                <div key={i} className="record-write-photo-preview">
+                                    <img
+                                        src={URL.createObjectURL(file)}
+                                        alt=""
+                                        className="record-write-photo-img"
+                                    />
+                                    <button
+                                        type="button"
+                                        className="record-write-photo-remove"
+                                        onClick={() => removePhoto(i)}
+                                        aria-label="삭제"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </section>
 
                 {/* 메모 카드 */}
