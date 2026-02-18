@@ -49,7 +49,7 @@ export default function Home() {
                 ) : tab === "news" ? (
                     <NewsTabView />
                 ) : (
-                    <MyTabView />
+                    <MyTabView onTabChange={setTab} />
                 )}
             </div>
             <BottomNav activeTab={tab} onTabChange={setTab} />
