@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { useSession } from "next-auth/react";
 import {
   RECENT_PROCEDURE,
   NEXT_PROCEDURE_DATE,
@@ -32,6 +33,15 @@ function getDaysUntilNext(dateStr) {
 }
 
 function HomeView({ onMenuClick }) {
+  const { data: session } = useSession();
+
+  const handleRecordAdd = () => {
+    if (!session) {
+      alert("로그인 후 이용 가능한 서비스입니다. 'MY' 탭에서 로그인을 진행해 주세요!");
+      return;
+    }
+    onMenuClick("record-write");
+  };
 
   const dday = useMemo(() => getDday(RECENT_PROCEDURE.procedureDate), []);
   const daysUntilNext = useMemo(
@@ -116,7 +126,7 @@ function HomeView({ onMenuClick }) {
           <button
             type="button"
             className="home-cta-primary"
-            onClick={() => onMenuClick("record-write")}
+            onClick={handleRecordAdd}
           >
             기록 추가
           </button>

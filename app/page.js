@@ -25,7 +25,7 @@ export default function Home() {
                     <RecordWriteView
                         onBack={() => setView("home")}
                         onSave={async (payload) => {
-                            console.log("저장:", payload);
+                            setTab("record");
                         }}
                     />
                 ) : view === "record-detail" ? (

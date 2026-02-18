@@ -70,15 +70,17 @@ function RecordDetailView({ record, onBack, onSave }) {
     return (
         <div className="record-write-screen">
             <header className="list-header">
-                <button
-                    type="button"
-                    className="back-btn"
-                    onClick={handleBack}
-                    aria-label="뒤로 가기"
-                >
-                    ‹
-                </button>
-                <h1 className="list-title">기록 상세</h1>
+                <div className="header-left">
+                    <button
+                        type="button"
+                        className="back-btn"
+                        onClick={handleBack}
+                        aria-label="뒤로 가기"
+                    >
+                        ‹
+                    </button>
+                    <h1 className="list-title">기록 상세</h1>
+                </div>
             </header>
 
             <main className="record-write-main">
@@ -90,9 +92,32 @@ function RecordDetailView({ record, onBack, onSave }) {
                     </div>
                 </section>
 
+                {record.image_paths && record.image_paths.length > 0 && (
+                    <section className="record-write-card">
+                        <label className="record-write-label">사진</label>
+                        <div className="record-write-photos" style={{ marginTop: '12px' }}>
+                            {record.image_paths.map((path, idx) => {
+                                const { data: { publicUrl } } = supabase.storage
+                                    .from('beautyLog')
+                                    .getPublicUrl(path);
+
+                                return (
+                                    <div key={idx} className="record-write-photo-preview">
+                                        <img
+                                            src={publicUrl}
+                                            alt={`관리 사진 ${idx + 1}`}
+                                            className="record-write-photo-img"
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </section>
+                )}
+
                 <section className="record-write-card">
                     <div className="record-write-field-group">
-                        <label className="record-write-label">피부과 명</label>
+                        <label className="record-write-label">피부과</label>
                         <div className="record-detail-text">{record.hospital || '입력 정보 없음'}</div>
                     </div>
                     <div className="record-write-field-group" style={{ marginTop: '16px' }}>

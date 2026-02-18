@@ -62,14 +62,111 @@ function RecordWriteView({ onBack, onSave }) {
         setPhotos((prev) => prev.filter((_, i) => i !== index));
     };
 
+    // 이미지 압축 함수
+    const compressImage = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    const MAX_WIDTH = 1200;
+                    const MAX_HEIGHT = 1200;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // quality 0.7로 압축하여 Blob 생성
+                    canvas.toBlob((blob) => {
+                        resolve(blob);
+                    }, "image/jpeg", 0.7);
+                };
+            };
+            reader.onerror = (error) => reject(error);
+        });
+    };
+
+    // 파일 업로드 함수
+    const uploadImages = async (userId) => {
+        const uploadedPaths = [];
+
+        for (const file of photos) {
+            try {
+                // 0. 이미지 압축
+                const compressedBlob = await compressImage(file);
+
+                // 1. 파일명 생성 (경로 단순화: userId/timestamp_random.jpg)
+                const timestamp = Date.now();
+                const randomStr = Math.random().toString(36).substring(7);
+                const filePath = `${userId}/${timestamp}_${randomStr}.jpg`;
+
+                console.log("Uploading to path:", filePath);
+
+                const { data, error: uploadError } = await supabase.storage
+                    .from('beautyLog')
+                    .upload(filePath, compressedBlob, {
+                        contentType: 'image/jpeg',
+                        upsert: true
+                    });
+
+                if (uploadError) {
+                    console.error('Supabase Storage Error Detail:', uploadError);
+                    throw new Error(`스토리지 오류: ${uploadError.message}`);
+                }
+
+                uploadedPaths.push(filePath);
+                console.log("Upload success:", data.path);
+            } catch (err) {
+                console.error('Individual file upload failed:', err);
+                throw err;
+            }
+        }
+        return uploadedPaths;
+    };
+
     const handleSave = async () => {
         if (!session) {
             alert("로그인이 필요합니다.");
             return;
         }
 
+        if (!hospital.trim()) {
+            alert("피부과 명을 입력해 주세요.");
+            return;
+        }
+
+        if (!procedureTitle.trim()) {
+            alert("시술명을 입력해 주세요.");
+            return;
+        }
+
         setSaving(true);
         try {
+            // 1. 이미지 먼저 스토리지에 업로드
+            let imagePaths = [];
+            if (photos.length > 0) {
+                imagePaths = await uploadImages(session.user.id || session.user.email);
+            }
+
+            // 2. DB에 기록 저장 (이미지 경로 포함)
             const payload = {
                 user_email: session.user.email,
                 date: date.toISOString().split('T')[0],
@@ -79,6 +176,7 @@ function RecordWriteView({ onBack, onSave }) {
                 states: states,
                 memo: memo.trim(),
                 photo_count: photos.length,
+                image_paths: imagePaths, // 새 컬럼 추가 필요
             };
 
             const { error } = await supabase
@@ -95,7 +193,7 @@ function RecordWriteView({ onBack, onSave }) {
             }
         } catch (error) {
             console.error('Error saving record:', error);
-            alert("저장 중 오류가 발생했습니다.");
+            alert(error.message || "저장 중 오류가 발생했습니다.");
         } finally {
             setSaving(false);
         }
@@ -143,7 +241,7 @@ function RecordWriteView({ onBack, onSave }) {
                 {/* 시술 정보 카드 */}
                 <section className="record-write-card">
                     <div className="record-write-field-group">
-                        <label className="record-write-label">피부과 명</label>
+                        <label className="record-write-label">피부과</label>
                         <input
                             type="text"
                             className="record-write-input"

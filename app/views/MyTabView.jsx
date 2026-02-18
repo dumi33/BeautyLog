@@ -12,7 +12,10 @@ function MyTabView({ onTabChange }) {
     // 최근 활동 데이터 가져오기 (마지막 3개)
     useEffect(() => {
         const fetchRecent = async () => {
-            if (!session?.user?.email) return;
+            if (!session?.user?.email) {
+                setRecentRecords([]); // 로그아웃 시 데이터 즉시 비우기
+                return;
+            }
 
             try {
                 const { data, error } = await supabase
@@ -100,7 +103,7 @@ function MyTabView({ onTabChange }) {
 
                 </div>
                 <h2 className="my-username">
-                    {session?.user?.name || '뷰티 마스터'}
+                    {session?.user?.name || '퀸'}
                 </h2>
                 <p className="my-bio">
                     {session ? `${session.user.email}` : '매일 더 아름다워지는 중 ✨'}
