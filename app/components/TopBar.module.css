@@ -1,0 +1,86 @@
+.topBar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    /* Push action buttons to the right */
+    min-height: 64px;
+    padding: 0 16px;
+    padding-top: max(env(safe-area-inset-top), 12px);
+    padding-bottom: 12px;
+    background: var(--bg);
+}
+
+.headerLeft,
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
+}
+
+.topBarBrand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+.topBarLogoIcon {
+    width: 32px;
+    height: 32px;
+    color: var(--point);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconBtn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: var(--bg-soft);
+    color: var(--text);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+:global(html.dark) .iconBtn {
+    background: #1c1c1e;
+}
+
+.iconBtn:hover {
+    background: var(--point-soft);
+    color: var(--point);
+}
+
+.settingsBtn {
+    color: #ff9f0a;
+    /* Peach/Orange like the reference */
+}
+
+.darkModeToggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.darkModeToggle:hover {
+    background: var(--bg-soft);
+}

@@ -1,0 +1,294 @@
+.homeCalendar {
+    position: relative;
+    z-index: 1;
+    background: var(--surface-card);
+    border-radius: var(--radius-lg);
+    padding: 20px 16px;
+    margin-bottom: 0;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border);
+}
+
+.calendarWeekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.calendarWeekday {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-soft);
+}
+
+.calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+}
+
+.calendarGridWeek {
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendarDay {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 0.9rem;
+    color: var(--text);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+}
+
+.calendarDay:not(.empty):hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.empty {
+    visibility: hidden;
+    cursor: default;
+}
+
+.calendarDay[disabled] {
+    cursor: default;
+}
+
+.today {
+    background: var(--point-soft);
+    color: var(--point);
+    font-weight: 600;
+}
+
+.selected {
+    outline: 2px solid var(--point);
+    outline-offset: 2px;
+}
+
+.calendarDayDots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+.calendarDot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+}
+
+.calendarDotDerma {
+    background: #e08b8b;
+}
+
+.calendarStamp {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--point);
+    border: 1.5px dashed var(--point);
+    border-radius: 4px;
+    background: rgba(244, 194, 194, 0.15);
+    line-height: 1;
+}
+
+.hasStamp {
+    position: relative;
+}
+
+.calendarExpandBtn,
+.calendarCollapseBtn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--point);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.calendarExpandBtn:hover,
+.calendarCollapseBtn:hover {
+    background: var(--point-soft);
+}
+
+.calendarCollapseBtn {
+    margin-bottom: 12px;
+}
+
+.calendarHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding: 0 4px;
+}
+
+.calendarNav {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--text-soft);
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: background 0.2s, color 0.2s;
+}
+
+.calendarNav:hover {
+    background: var(--point-soft);
+    color: var(--text);
+}
+
+.calendarTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+
+/* Day Detail */
+.dayDetail {
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+}
+
+.dayDetailHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.dayDetailDate {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.dayDetailClose {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--text-soft);
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: background 0.2s, color 0.2s;
+}
+
+.dayDetailClose:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--text);
+}
+
+.dayDetailEmpty {
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    padding: 12px 0;
+}
+
+.dayDetailList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dayDetailItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: var(--radius-md);
+}
+
+.dayDetailDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+}
+
+.dayDetailItemDerma .dayDetailDot {
+    background: #e08b8b;
+}
+
+.dayDetailItemStamp {
+    background: var(--point-soft);
+}
+
+.dayDetailStampIcon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--point);
+    border: 1.5px dashed var(--point);
+    border-radius: 6px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.dayDetailBody {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dayDetailCategory {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-soft);
+}
+
+.dayDetailTitle {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.dayDetailMemo {
+    font-size: 0.82rem;
+    color: var(--text-soft);
+}

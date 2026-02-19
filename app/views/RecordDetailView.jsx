@@ -1,3 +1,6 @@
+'use client';
+
+import styles from './RecordDetailView.module.css';
 import { useState, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import { RECOVERY_STATE_OPTIONS } from "@/constants";
@@ -111,7 +114,7 @@ function RecordDetailView({ record, onBack, onSave }) {
     };
 
     return (
-        <div className="record-write-screen">
+        <div className={styles.recordDetailScreen}>
             <header className="list-header">
                 <div className="header-left">
                     <button
@@ -126,36 +129,36 @@ function RecordDetailView({ record, onBack, onSave }) {
                 </div>
             </header>
 
-            <main className="record-write-main">
-                <section className="procedure-detail-card">
-                    <h2 className="procedure-detail-card-title">시술 정보</h2>
-                    <div className="procedure-detail-info">
-                        <div className="procedure-detail-info-row">
-                            <span className="procedure-detail-info-label">시술 이름</span>
-                            <span className="procedure-detail-info-value">{record.procedure_title || '기록'}</span>
+            <main className={styles.recordDetailMain}>
+                <section className={styles.procedureDetailCard}>
+                    <h2 className={styles.procedureDetailCardTitle}>시술 정보</h2>
+                    <div className={styles.procedureDetailInfo}>
+                        <div className={styles.procedureDetailInfoRow}>
+                            <span className={styles.procedureDetailInfoLabel}>시술 이름</span>
+                            <span className={styles.procedureDetailInfoValue}>{record.procedure_title || '기록'}</span>
                         </div>
-                        <div className="procedure-detail-info-row">
-                            <span className="procedure-detail-info-label">병원</span>
-                            <span className="procedure-detail-info-value">{record.hospital || '정보 없음'}</span>
+                        <div className={styles.procedureDetailInfoRow}>
+                            <span className={styles.procedureDetailInfoLabel}>병원</span>
+                            <span className={styles.procedureDetailInfoValue}>{record.hospital || '정보 없음'}</span>
                         </div>
-                        <div className="procedure-detail-info-row">
-                            <span className="procedure-detail-info-label">시술일</span>
-                            <span className="procedure-detail-info-value">{displayDate}</span>
+                        <div className={styles.procedureDetailInfoRow}>
+                            <span className={styles.procedureDetailInfoLabel}>시술일</span>
+                            <span className={styles.procedureDetailInfoValue}>{displayDate}</span>
                         </div>
-                        <div className="procedure-detail-info-row procedure-detail-dday-row">
-                            <span className="procedure-detail-info-label">경과</span>
-                            <span className="procedure-detail-info-value procedure-detail-dday">
+                        <div className={`${styles.procedureDetailInfoRow} ${styles.procedureDetailDdayRow}`}>
+                            <span className={styles.procedureDetailInfoLabel}>경과</span>
+                            <span className={`${styles.procedureDetailInfoValue} ${styles.procedureDetailDday}`}>
                                 {dday === 0 ? "D-Day" : dday > 0 ? `D+${dday}` : `D${dday}`}
                             </span>
                         </div>
 
-                        <div className="procedure-detail-info-row" style={{ marginTop: '8px', borderTop: '1px dashed var(--border)', paddingTop: '8px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                                <span className="procedure-detail-info-label" style={{ color: 'var(--point)', marginBottom: 0 }}>다음 예약</span>
+                        <div className={styles.appointmentSection}>
+                            <div className={styles.appointmentHeader}>
+                                <span className={styles.procedureDetailInfoLabel} style={{ color: 'var(--point)', marginBottom: 0 }}>다음 예약</span>
                                 {!nextAppointment ? (
                                     <button
                                         type="button"
-                                        className="record-write-next-add-btn"
+                                        className={styles.btnAdd}
                                         onClick={() => {
                                             const today = new Date().toISOString().split('T')[0];
                                             setNextAppointment(today);
@@ -166,7 +169,7 @@ function RecordDetailView({ record, onBack, onSave }) {
                                 ) : (
                                     <button
                                         type="button"
-                                        className="record-write-next-remove-btn"
+                                        className={styles.btnRemove}
                                         onClick={() => setNextAppointment(null)}
                                     >
                                         ×
@@ -188,14 +191,14 @@ function RecordDetailView({ record, onBack, onSave }) {
                     </div>
                 </section>
 
-                <section className="record-write-card">
-                    <span className="record-write-label">회복 상태</span>
-                    <div className="record-write-recovery-group">
+                <section className={styles.card}>
+                    <span className={styles.label}>회복 상태</span>
+                    <div className={styles.recoveryGroup}>
                         {RECOVERY_STATE_OPTIONS.map((option) => (
                             <button
                                 key={option.id}
                                 type="button"
-                                className={`record-write-recovery-btn ${recoveryState === option.id ? "active" : ""}`}
+                                className={`${styles.recoveryBtn} ${recoveryState === option.id ? styles.active : ""}`}
                                 onClick={() => setRecoveryState(option.id)}
                             >
                                 {option.label}
@@ -204,16 +207,16 @@ function RecordDetailView({ record, onBack, onSave }) {
                     </div>
                 </section>
 
-                <section className="record-write-card">
-                    <span className="record-write-label">상태 상세</span>
-                    <div className="record-detail-states-row">
+                <section className={styles.card}>
+                    <span className={styles.label}>상태 상세</span>
+                    <div className={styles.statesRow}>
                         {STATE_OPTIONS.map(({ id, label, key }) => {
                             const levelValue = record.states?.[key];
                             const levelLabel = LEVELS.find(l => l.value === levelValue)?.label || "없음";
                             return (
-                                <div key={id} className="record-detail-state-badge">
-                                    <span className="state-label">{label}</span>
-                                    <span className="state-value">{levelLabel}</span>
+                                <div key={id} className={styles.stateBadge}>
+                                    <span className={styles.stateLabel}>{label}</span>
+                                    <span className={styles.stateValue}>{levelLabel}</span>
                                 </div>
                             );
                         })}
@@ -221,13 +224,13 @@ function RecordDetailView({ record, onBack, onSave }) {
                 </section>
 
                 {/* 기록 타임라인 섹션 */}
-                <section className="record-write-card">
+                <section className={styles.card}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                        <h2 className="procedure-detail-card-title" style={{ margin: 0 }}>기록 타임라인</h2>
+                        <h2 className={styles.procedureDetailCardTitle} style={{ margin: 0 }}>기록 타임라인</h2>
                         {!showAddForm && (
                             <button
                                 type="button"
-                                className="record-write-next-add-btn"
+                                className={styles.btnAdd}
                                 onClick={() => setShowAddForm(true)}
                             >
                                 +
@@ -236,7 +239,7 @@ function RecordDetailView({ record, onBack, onSave }) {
                     </div>
 
                     {/* 타임라인 목록 */}
-                    <div className="record-detail-timeline-list">
+                    <div className={styles.timelineList}>
                         {timeline.filter(t => t.content.trim()).length > 0 ? (
                             [...timeline]
                                 .filter(t => t.content.trim())
@@ -244,17 +247,17 @@ function RecordDetailView({ record, onBack, onSave }) {
                                 .map((entry, idx) => {
                                     const dValue = calculateDday(entry.date);
                                     return (
-                                        <div key={idx} className="record-detail-timeline-item">
-                                            <div className="timeline-item-header">
+                                        <div key={idx} className={styles.timelineItem}>
+                                            <div className={styles.timelineItemHeader}>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
-                                                    <span className={`timeline-item-dday ${dValue === 0 ? 'today' : ''}`}>
+                                                    <span className={`${styles.timelineItemDday} ${dValue === 0 ? styles.today : ''}`}>
                                                         {dValue === 0 ? 'D-Day' : dValue > 0 ? `D+${dValue}` : `D${dValue}`}
                                                     </span>
-                                                    <span className="timeline-item-date">{entry.date.replace(/-/g, '.')}</span>
+                                                    <span className={styles.timelineItemDate}>{entry.date.replace(/-/g, '.')}</span>
                                                 </div>
                                                 <button
                                                     type="button"
-                                                    className="timeline-item-delete-btn"
+                                                    className={styles.timelineItemDeleteBtn}
                                                     onClick={() => {
                                                         if (confirm("이 기록을 삭제하시겠습니까?")) {
                                                             setTimeline(prev => prev.filter(t => t.created_at !== entry.created_at));
@@ -264,7 +267,7 @@ function RecordDetailView({ record, onBack, onSave }) {
                                                     ×
                                                 </button>
                                             </div>
-                                            <div className="timeline-item-content">{entry.content}</div>
+                                            <div className={styles.timelineItemContent}>{entry.content}</div>
                                         </div>
                                     );
                                 })
@@ -277,20 +280,20 @@ function RecordDetailView({ record, onBack, onSave }) {
 
                     {/* 타임라인 추가 폼 (조건부 렌더링) */}
                     {showAddForm && (
-                        <div className="record-detail-timeline-add">
-                            <div className="timeline-add-header">
+                        <div className={styles.timelineAdd}>
+                            <div className={styles.timelineAddHeader}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
                                     <input
                                         type="date"
                                         value={newEntry.date}
                                         onChange={(e) => setNewEntry(prev => ({ ...prev, date: e.target.value }))}
-                                        className="timeline-date-input"
+                                        className={styles.timelineDateInput}
                                     />
                                 </div>
                                 <div style={{ display: 'flex', gap: '8px' }}>
                                     <button
                                         type="button"
-                                        className="timeline-add-btn"
+                                        className={styles.timelineAddBtn}
                                         onClick={() => {
                                             if (!newEntry.content.trim()) return;
                                             setTimeline(prev => [...prev, { ...newEntry, created_at: new Date().toISOString() }]);
@@ -302,7 +305,7 @@ function RecordDetailView({ record, onBack, onSave }) {
                                     </button>
                                     <button
                                         type="button"
-                                        className="record-write-next-remove-btn"
+                                        className={styles.btnRemove}
                                         onClick={() => setShowAddForm(false)}
                                     >
                                         ×
@@ -310,8 +313,8 @@ function RecordDetailView({ record, onBack, onSave }) {
                                 </div>
                             </div>
                             <textarea
-                                className="record-write-memo"
-                                style={{ marginTop: '8px', minHeight: '80px' }}
+                                className={styles.memoArea}
+                                style={{ marginTop: '8px' }}
                                 value={newEntry.content}
                                 onChange={(e) => setNewEntry(prev => ({ ...prev, content: e.target.value }))}
                                 placeholder="오늘의 회복 상태를 기록해 보세요..."
@@ -323,20 +326,20 @@ function RecordDetailView({ record, onBack, onSave }) {
 
 
                 {record.image_paths && record.image_paths.length > 0 && (
-                    <section className="record-write-card">
-                        <label className="record-write-label">사진</label>
-                        <div className="record-write-photos" style={{ marginTop: '12px' }}>
+                    <section className={styles.card}>
+                        <label className={styles.label}>사진</label>
+                        <div className={styles.photoGroup}>
                             {record.image_paths.map((path, idx) => {
                                 const { data: { publicUrl } } = supabase.storage
                                     .from('beautyLog')
                                     .getPublicUrl(path);
 
                                 return (
-                                    <div key={idx} className="record-write-photo-preview">
+                                    <div key={idx} className={styles.photoPreview}>
                                         <img
                                             src={publicUrl}
                                             alt={`관리 사진 ${idx + 1}`}
-                                            className="record-write-photo-img"
+                                            className={styles.photoImg}
                                         />
                                     </div>
                                 );
@@ -349,7 +352,7 @@ function RecordDetailView({ record, onBack, onSave }) {
                 {isChanged && (
                     <button
                         type="button"
-                        className="record-write-save"
+                        className={styles.saveBtn}
                         onClick={handleUpdate}
                         disabled={isSaving}
                         style={{ marginTop: '16px' }}

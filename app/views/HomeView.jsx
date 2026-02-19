@@ -1,5 +1,6 @@
 "use client";
 
+import styles from './HomeView.module.css';
 import { useMemo } from "react";
 import { useSession } from "next-auth/react";
 import {
@@ -55,25 +56,25 @@ function HomeView({ onMenuClick }) {
 
   return (
     <>
-      <main className="main home-main">
+      <main className={`${styles.homeMain}`}>
         {/* 상단: D-day → 시술 상세 / 다음 시술까지 → 예약 관리 */}
-        <section className="home-summary">
-          <div className="home-summary-badges">
+        <section className={styles.homeSummary}>
+          <div className={styles.homeSummaryBadges}>
             <button
               type="button"
-              className="home-summary-badge home-summary-badge-btn"
+              className={`${styles.homeSummaryBadge} ${styles.homeSummaryBadgeBtn}`}
               onClick={() => onMenuClick("procedure-detail")}
             >
-              <span className="home-summary-label">시술 D-day</span>
-              <span className="home-summary-value">D+{dday ?? "—"}</span>
+              <span className={styles.homeSummaryLabel}>시술 D-day</span>
+              <span className={styles.homeSummaryValue}>D+{dday ?? "—"}</span>
             </button>
             <button
               type="button"
-              className="home-summary-badge home-summary-badge-btn"
+              className={`${styles.homeSummaryBadge} ${styles.homeSummaryBadgeBtn}`}
               onClick={() => onMenuClick("appointment-manage")}
             >
-              <span className="home-summary-label">다음 시술까지</span>
-              <span className="home-summary-value">
+              <span className={styles.homeSummaryLabel}>다음 시술까지</span>
+              <span className={styles.homeSummaryValue}>
                 {daysUntilNext !== null ? `${daysUntilNext}일` : "—"}
               </span>
             </button>
@@ -81,10 +82,10 @@ function HomeView({ onMenuClick }) {
         </section>
 
         {/* 중앙: 최근 시술 카드 — 클릭 시 시술 상세 */}
-        <section className="home-recent-section">
-          <h2 className="home-section-title">최근 시술</h2>
+        <section className={styles.homeRecentSection}>
+          <h2 className={styles.homeSectionTitle}>최근 시술</h2>
           <article
-            className="recent-card recent-card-clickable"
+            className={`${styles.recentCard} ${styles.recentCardClickable}`}
             role="button"
             tabIndex={0}
             onClick={() => onMenuClick("procedure-detail")}
@@ -95,37 +96,37 @@ function HomeView({ onMenuClick }) {
               }
             }}
           >
-            <div className="recent-card-header">
-              <span className="recent-card-title">
+            <div className={styles.recentCardHeader}>
+              <span className={styles.recentCardTitle}>
                 {RECENT_PROCEDURE.title}
               </span>
-              <span className="recent-card-dday">D+{dday ?? "—"}</span>
+              <span className={styles.recentCardDday}>D+{dday ?? "—"}</span>
             </div>
-            <div className="recent-card-meta">
-              <span className="recent-card-hospital">
+            <div className={styles.recentCardMeta}>
+              <span className={styles.recentCardHospital}>
                 {RECENT_PROCEDURE.hospital}
               </span>
-              <span className="recent-card-date">
+              <span className={styles.recentCardDate}>
                 {RECENT_PROCEDURE.procedureDate}
               </span>
             </div>
-            <div className="recent-card-recovery">
-              <span className="recent-card-recovery-label">회복 상태</span>
-              <span className="recent-card-recovery-value">
+            <div className={styles.recentCardRecovery}>
+              <span className={styles.recentCardRecoveryLabel}>회복 상태</span>
+              <span className={styles.recentCardRecoveryValue}>
                 {RECENT_PROCEDURE.recoveryState}
               </span>
             </div>
             {RECENT_PROCEDURE.hasBeforeAfter && (
-              <span className="recent-card-before-after">Before / After 보기</span>
+              <span className={styles.recentCardBeforeAfter}>Before / After 보기</span>
             )}
           </article>
         </section>
 
         {/* 오늘 기록 추가 — 강조 CTA → 기록 작성 화면 */}
-        <section className="home-cta-section">
+        <section className={styles.homeCtaSection}>
           <button
             type="button"
-            className="home-cta-primary"
+            className={styles.homeCtaPrimary}
             onClick={handleRecordAdd}
           >
             기록 추가
@@ -133,46 +134,46 @@ function HomeView({ onMenuClick }) {
         </section>
 
         {/* 캘린더: 기본 일주일 표시, 한 달 보기 클릭 시 확장 */}
-        <section className="home-calendar-section">
+        <section className={styles.homeCalendarSection}>
           <Calendar />
         </section>
 
         {/* 시술 기반 맞춤 추천: 최근 시술·예약일 기준 동적 노출 */}
-        <section className="home-recommend-section">
-          <h2 className="home-recommend-title">{USER_DISPLAY_NAME}님을 위한 맞춤 관리</h2>
-          <div className="home-recommend-scroll">
+        <section className={styles.homeRecommendSection}>
+          <h2 className={styles.homeRecommendTitle}>{USER_DISPLAY_NAME}님을 위한 맞춤 관리</h2>
+          <div className={styles.homeRecommendScroll}>
             {/* ① 지금 필요한 관리 — D-day 기반 */}
-            <article className="home-recommend-card">
-              <span className="home-recommend-tag home-recommend-tag-aftercare">{RECOMMEND_AFTERCARE.tag}</span>
-              <h3 className="home-recommend-card-title">{RECOMMEND_AFTERCARE.title}</h3>
-              <p className="home-recommend-card-desc">
+            <article className={styles.homeRecommendCard}>
+              <span className={`${styles.homeRecommendTag} ${styles.homeRecommendTagAftercare}`}>{RECOMMEND_AFTERCARE.tag}</span>
+              <h3 className={styles.homeRecommendCardTitle}>{RECOMMEND_AFTERCARE.title}</h3>
+              <p className={styles.homeRecommendCardDesc}>
                 {dday != null
                   ? RECOMMEND_AFTERCARE.getCopy(RECENT_PROCEDURE.title, dday)
                   : "최근 시술 기준 추천"}
               </p>
-              <p className="home-recommend-card-content">
+              <p className={styles.homeRecommendCardContent}>
                 {dday != null ? RECOMMEND_AFTERCARE.getContent(dday) : RECOMMEND_AFTERCARE.getContent(3)}
               </p>
             </article>
 
             {/* ② 다음 시술 준비 — 예약 3일 이내일 때만 */}
             {showNextPrep && (
-              <article className="home-recommend-card">
-                <span className="home-recommend-tag home-recommend-tag-warning">{RECOMMEND_PREP.tag}</span>
-                <h3 className="home-recommend-card-title">{RECOMMEND_PREP.title}</h3>
-                <p className="home-recommend-card-desc">{RECOMMEND_PREP.copy}</p>
-                <p className="home-recommend-card-content">{RECOMMEND_PREP.content}</p>
+              <article className={styles.homeRecommendCard}>
+                <span className={`${styles.homeRecommendTag} ${styles.homeRecommendTagWarning}`}>{RECOMMEND_PREP.tag}</span>
+                <h3 className={styles.homeRecommendCardTitle}>{RECOMMEND_PREP.title}</h3>
+                <p className={styles.homeRecommendCardDesc}>{RECOMMEND_PREP.copy}</p>
+                <p className={styles.homeRecommendCardContent}>{RECOMMEND_PREP.content}</p>
               </article>
             )}
 
             {/* ③ 관련 시술/관리 추천 — 최근 시술 카테고리 기반 */}
-            <article className="home-recommend-card">
-              <span className="home-recommend-tag home-recommend-tag-guide">{RECOMMEND_RELATED.tag}</span>
-              <h3 className="home-recommend-card-title">{RECOMMEND_RELATED.title}</h3>
-              <p className="home-recommend-card-desc">
+            <article className={styles.homeRecommendCard}>
+              <span className={`${styles.homeRecommendTag} ${styles.homeRecommendTagGuide}`}>{RECOMMEND_RELATED.tag}</span>
+              <h3 className={styles.homeRecommendCardTitle}>{RECOMMEND_RELATED.title}</h3>
+              <p className={styles.homeRecommendCardDesc}>
                 {RECOMMEND_RELATED.getCopy(RECENT_PROCEDURE.title)}
               </p>
-              <p className="home-recommend-card-content">{RECOMMEND_RELATED.content}</p>
+              <p className={styles.homeRecommendCardContent}>{RECOMMEND_RELATED.content}</p>
             </article>
           </div>
         </section>

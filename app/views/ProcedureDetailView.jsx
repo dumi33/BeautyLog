@@ -1,5 +1,6 @@
-"use client";
+'use client';
 
+import styles from './ProcedureDetailView.module.css';
 import { useState, useMemo } from "react";
 import {
     RECENT_PROCEDURE,
@@ -34,7 +35,7 @@ function ProcedureDetailView({ procedure = RECENT_PROCEDURE, onBack }) {
     };
 
     return (
-        <div className="procedure-detail-screen">
+        <div className={styles.procedureDetailScreen}>
             <header className="list-header">
                 <button type="button" className="back-btn" onClick={onBack} aria-label="뒤로 가기">
                     ‹
@@ -42,39 +43,39 @@ function ProcedureDetailView({ procedure = RECENT_PROCEDURE, onBack }) {
                 <h1 className="list-title">시술 상세</h1>
             </header>
 
-            <main className="procedure-detail-main">
+            <main className={styles.procedureDetailMain}>
                 {/* 1. 시술 정보 카드 */}
-                <section className="procedure-detail-card">
-                    <h2 className="procedure-detail-card-title">시술 정보</h2>
-                    <div className="procedure-detail-info">
-                        <div className="procedure-detail-info-row">
-                            <span className="procedure-detail-info-label">시술 이름</span>
-                            <span className="procedure-detail-info-value">{procedure.title}</span>
+                <section className={styles.card}>
+                    <h2 className={styles.cardTitle}>시술 정보</h2>
+                    <div className={styles.infoList}>
+                        <div className={styles.infoRow}>
+                            <span className={styles.infoLabel}>시술 이름</span>
+                            <span className={styles.infoValue}>{procedure.title}</span>
                         </div>
-                        <div className="procedure-detail-info-row">
-                            <span className="procedure-detail-info-label">병원</span>
-                            <span className="procedure-detail-info-value">{procedure.hospital}</span>
+                        <div className={styles.infoRow}>
+                            <span className={styles.infoLabel}>병원</span>
+                            <span className={styles.infoValue}>{procedure.hospital}</span>
                         </div>
-                        <div className="procedure-detail-info-row">
-                            <span className="procedure-detail-info-label">시술일</span>
-                            <span className="procedure-detail-info-value">{procedure.procedureDate}</span>
+                        <div className={styles.infoRow}>
+                            <span className={styles.infoLabel}>시술일</span>
+                            <span className={styles.infoValue}>{procedure.procedureDate}</span>
                         </div>
-                        <div className="procedure-detail-info-row procedure-detail-dday-row">
-                            <span className="procedure-detail-info-label">경과</span>
-                            <span className="procedure-detail-info-value procedure-detail-dday">D+{dday ?? "—"}</span>
+                        <div className={`${styles.infoRow} ${styles.ddayRow}`}>
+                            <span className={styles.infoLabel}>경과</span>
+                            <span className={`${styles.infoValue} ${styles.ddayValue}`}>D+{dday ?? "—"}</span>
                         </div>
                     </div>
                 </section>
 
                 {/* 2. 회복 상태 변경 */}
-                <section className="procedure-detail-card">
-                    <h2 className="procedure-detail-card-title">회복 상태</h2>
-                    <div className="procedure-detail-recovery-btns">
+                <section className={styles.card}>
+                    <h2 className={styles.cardTitle}>회복 상태</h2>
+                    <div className={styles.recoveryBtns}>
                         {RECOVERY_STATE_OPTIONS.map((opt) => (
                             <button
                                 key={opt.id}
                                 type="button"
-                                className={`procedure-detail-recovery-btn ${recoveryState === opt.label ? "active" : ""}`}
+                                className={`${styles.recoveryBtn} ${recoveryState === opt.label ? styles.active : ""}`}
                                 onClick={() => handleRecoveryChange(opt.label)}
                             >
                                 {opt.label}
@@ -84,15 +85,15 @@ function ProcedureDetailView({ procedure = RECENT_PROCEDURE, onBack }) {
                 </section>
 
                 {/* 3. 다음 예약 정보 */}
-                <section className="procedure-detail-card">
-                    <h2 className="procedure-detail-card-title">다음 예약</h2>
-                    <div className="procedure-detail-next">
-                        <span className="procedure-detail-next-date">
+                <section className={styles.card}>
+                    <h2 className={styles.cardTitle}>다음 예약</h2>
+                    <div className={styles.nextArea}>
+                        <span className={styles.nextDate}>
                             {nextDate ? nextDate : "예약 없음"}
                         </span>
                         <button
                             type="button"
-                            className="procedure-detail-next-edit"
+                            className={styles.nextEditBtn}
                             onClick={handleEditNextAppointment}
                         >
                             예약 수정
@@ -101,14 +102,14 @@ function ProcedureDetailView({ procedure = RECENT_PROCEDURE, onBack }) {
                 </section>
 
                 {/* 4. 전체 기록 타임라인 */}
-                <section className="procedure-detail-card">
-                    <h2 className="procedure-detail-card-title">기록 타임라인</h2>
-                    <ul className="procedure-detail-timeline">
+                <section className={styles.card}>
+                    <h2 className={styles.cardTitle}>기록 타임라인</h2>
+                    <ul className={styles.timeline}>
                         {PROCEDURE_TIMELINE_SAMPLE.map((entry) => (
-                            <li key={entry.dday} className="procedure-detail-timeline-item">
-                                <span className="procedure-detail-timeline-dday">D+{entry.dday}</span>
-                                <span className="procedure-detail-timeline-date">{entry.date}</span>
-                                <p className="procedure-detail-timeline-summary">{entry.summary}</p>
+                            <li key={entry.dday} className={styles.timelineItem}>
+                                <span className={styles.timelineDday}>D+{entry.dday}</span>
+                                <span className={styles.timelineDate}>{entry.date}</span>
+                                <p className={styles.timelineSummary}>{entry.summary}</p>
                             </li>
                         ))}
                     </ul>
@@ -116,16 +117,16 @@ function ProcedureDetailView({ procedure = RECENT_PROCEDURE, onBack }) {
 
                 {/* 5. Before / After */}
                 {procedure.hasBeforeAfter && (
-                    <section className="procedure-detail-card">
-                        <h2 className="procedure-detail-card-title">Before / After</h2>
-                        <div className="procedure-detail-before-after">
-                            <div className="procedure-detail-ba-col">
-                                <span className="procedure-detail-ba-label">Before</span>
-                                <div className="procedure-detail-ba-placeholder" />
+                    <section className={styles.card}>
+                        <h2 className={styles.cardTitle}>Before / After</h2>
+                        <div className={styles.beforeAfter}>
+                            <div className={styles.baCol}>
+                                <span className={styles.baLabel}>Before</span>
+                                <div className={styles.baPlaceholder} />
                             </div>
-                            <div className="procedure-detail-ba-col">
-                                <span className="procedure-detail-ba-label">After</span>
-                                <div className="procedure-detail-ba-placeholder" />
+                            <div className={styles.baCol}>
+                                <span className={styles.baLabel}>After</span>
+                                <div className={styles.baPlaceholder} />
                             </div>
                         </div>
                     </section>

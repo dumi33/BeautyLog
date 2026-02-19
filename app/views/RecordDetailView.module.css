@@ -1,0 +1,331 @@
+.recordDetailScreen {
+    max-width: 400px;
+    margin: 0 auto;
+    padding-top: 8px;
+    padding-bottom: 32px;
+}
+
+.recordDetailMain {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* reused from write view but named specifically if needed */
+.card {
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-card);
+}
+
+.label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-soft);
+    margin-bottom: 12px;
+}
+
+/* Procedure Detail Styles */
+.procedureDetailCard {
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+}
+
+.procedureDetailCardTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+}
+
+.procedureDetailInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.procedureDetailInfoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.procedureDetailInfoLabel {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-soft);
+}
+
+.procedureDetailInfoValue {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.procedureDetailDdayRow {
+    background: var(--point-soft);
+    margin: 0 -24px;
+    padding: 16px 24px;
+}
+
+.procedureDetailDday {
+    color: var(--point);
+    font-weight: 700;
+}
+
+/* Next Appointment */
+.appointmentSection {
+    margin-top: 8px;
+    border-top: 1px dashed var(--border);
+    padding-top: 16px;
+}
+
+.appointmentHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.btnAdd,
+.btnRemove {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s;
+}
+
+.btnAdd {
+    background: var(--point-soft);
+    color: var(--point);
+}
+
+.btnRemove {
+    background: var(--bg-soft);
+    color: var(--text-soft);
+}
+
+/* Recovery States */
+.recoveryGroup {
+    display: flex;
+    gap: 10px;
+}
+
+.recoveryBtn {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-soft);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.recoveryBtn.active {
+    color: var(--point);
+    background: var(--point-soft);
+    border-color: var(--point);
+    font-weight: 600;
+}
+
+/* Status Detail */
+.statesRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.stateBadge {
+    flex: 1;
+    min-width: calc(50% - 5px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    background: var(--bg-soft);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+.stateLabel {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    font-weight: 500;
+}
+
+.stateValue {
+    font-size: 0.85rem;
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* Timeline */
+.timelineList {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.timelineItem {
+    padding: 18px;
+    background: var(--bg-soft);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+.timelineItemHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.timelineItemDday {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--surface-card);
+    color: var(--text-soft);
+}
+
+.timelineItemDday.today {
+    background: var(--point);
+    color: white;
+}
+
+.timelineItemDate {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-soft);
+}
+
+.timelineItemDeleteBtn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--text-soft);
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.timelineItemContent {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* Timeline Add Form */
+.timelineAdd {
+    margin-top: 20px;
+    padding: 18px;
+    background: var(--bg-soft);
+    border-radius: var(--radius-md);
+    border: 2px dashed var(--border);
+}
+
+.timelineAddHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.timelineDateInput {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--surface-card);
+}
+
+.timelineAddBtn {
+    padding: 6px 16px;
+    background: var(--point);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Photo Preview */
+.photoGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.photoPreview {
+    width: calc(33.33% - 8px);
+    aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+}
+
+.photoImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Save Button */
+.saveBtn {
+    width: 100%;
+    padding: 18px;
+    background: var(--point);
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow-card);
+    transition: all 0.2s;
+}
+
+.saveBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.memoArea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    resize: none;
+    line-height: 1.5;
+}

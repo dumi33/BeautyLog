@@ -1,3 +1,6 @@
+'use client';
+
+import styles from './RecordWriteView.module.css';
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { supabase } from "@/lib/supabase";
@@ -212,28 +215,28 @@ function RecordWriteView({ onBack, onSave }) {
     };
 
     return (
-        <div className="record-write-screen">
-            <header className="list-header">
+        <div className={styles.recordWriteScreen}>
+            <header className={styles.listHeader}>
                 <button
                     type="button"
-                    className="back-btn"
+                    className={styles.backBtn}
                     onClick={onBack}
                     aria-label="뒤로 가기"
                 >
                     ‹
                 </button>
-                <h1 className="list-title">오늘 기록</h1>
+                <h1 className={styles.listTitle}>오늘 기록</h1>
             </header>
 
-            <main className="record-write-main">
+            <main className={styles.recordWriteMain}>
                 {/* 날짜 카드 */}
-                <section className="record-write-card">
-                    <div className="record-write-date-row">
-                        <div className="record-write-date-info">
-                            <span className="record-write-label">시술 날짜</span>
-                            <span className="record-write-date">{formatDisplayDate(date)}</span>
+                <section className={styles.recordWriteCard}>
+                    <div className={styles.recordWriteDateRow}>
+                        <div className={styles.recordWriteDateInfo}>
+                            <span className={styles.recordWriteLabel}>시술 날짜</span>
+                            <span className={styles.recordWriteDate}>{formatDisplayDate(date)}</span>
                         </div>
-                        <label className="record-date-picker-label">
+                        <label className={styles.recordDatePickerLabel}>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                                 <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -242,7 +245,7 @@ function RecordWriteView({ onBack, onSave }) {
                             </svg>
                             <input
                                 type="date"
-                                className="record-date-input-hidden"
+                                className={styles.recordDateInputHidden}
                                 value={formatDateToInput(date)}
                                 onChange={(e) => setDate(new Date(e.target.value))}
                             />
@@ -251,22 +254,22 @@ function RecordWriteView({ onBack, onSave }) {
                 </section>
 
                 {/* 시술 정보 카드 */}
-                <section className="record-write-card">
+                <section className={styles.recordWriteCard}>
                     <div className="record-write-field-group">
-                        <label className="record-write-label">*피부과</label>
+                        <label className={styles.recordWriteLabel}>*피부과</label>
                         <input
                             type="text"
-                            className="record-write-input"
+                            className={styles.recordWriteInput}
                             placeholder="방문하신 피부과 이름을 입력해 주세요"
                             value={hospital}
                             onChange={(e) => setHospital(e.target.value)}
                         />
                     </div>
                     <div className="record-write-field-group" style={{ marginTop: '16px' }}>
-                        <label className="record-write-label">*시술명</label>
+                        <label className={styles.recordWriteLabel}>*시술명</label>
                         <input
                             type="text"
-                            className="record-write-input"
+                            className={styles.recordWriteInput}
                             placeholder="받으신 시술명을 입력해 주세요"
                             value={procedureTitle}
                             onChange={(e) => setProcedureTitle(e.target.value)}
@@ -275,14 +278,14 @@ function RecordWriteView({ onBack, onSave }) {
                 </section>
 
                 {/* 회복 상태 카드 */}
-                <section className="record-write-card">
-                    <span className="record-write-label">회복 상태</span>
-                    <div className="record-write-recovery-group">
+                <section className={styles.recordWriteCard}>
+                    <span className={styles.recordWriteLabel}>회복 상태</span>
+                    <div className={styles.recordWriteRecoveryGroup}>
                         {RECOVERY_STATE_OPTIONS.map((option) => (
                             <button
                                 key={option.id}
                                 type="button"
-                                className={`record-write-recovery-btn ${recoveryState === option.id ? "active" : ""}`}
+                                className={`${styles.recordWriteRecoveryBtn} ${recoveryState === option.id ? styles.active : ""}`}
                                 onClick={() => setRecoveryState(option.id)}
                             >
                                 {option.label}
@@ -292,17 +295,17 @@ function RecordWriteView({ onBack, onSave }) {
                 </section>
 
                 {/* 상태 선택 카드 */}
-                <section className="record-write-card">
-                    <span className="record-write-label">오늘의 상태</span>
+                <section className={styles.recordWriteCard}>
+                    <span className={styles.recordWriteLabel}>오늘의 상태</span>
                     {STATE_OPTIONS.map(({ id, label, key }) => (
-                        <div key={id} className="record-write-state-row">
-                            <span className="record-write-state-name">{label}</span>
-                            <div className="record-write-levels">
+                        <div key={id} className={styles.recordWriteStateRow}>
+                            <span className={styles.recordWriteStateName}>{label}</span>
+                            <div className={styles.recordWriteLevels}>
                                 {LEVELS.map(({ value, label: levelLabel }) => (
                                     <button
                                         key={value}
                                         type="button"
-                                        className={`record-write-level-btn ${states[key] === value ? "active" : ""}`}
+                                        className={`${styles.recordWriteLevelBtn} ${states[key] === value ? styles.active : ""}`}
                                         onClick={() => setLevel(key, value)}
                                         aria-pressed={states[key] === value}
                                     >
@@ -315,34 +318,34 @@ function RecordWriteView({ onBack, onSave }) {
                 </section>
 
                 {/* 사진 업로드 카드 */}
-                <section className="record-write-card">
+                <section className={styles.recordWriteCard}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span className="record-write-label" style={{ margin: 0 }}>사진</span>
+                        <span className={styles.recordWriteLabel} style={{ margin: 0 }}>사진</span>
                         {photos.length < 5 && (
-                            <label className="record-write-next-add-btn" style={{ cursor: 'pointer' }}>
+                            <label className={styles.recordWriteNextAddBtn} style={{ cursor: 'pointer' }}>
                                 <input
                                     type="file"
                                     accept="image/*"
                                     multiple
                                     onChange={handlePhotoChange}
-                                    className="record-write-photo-input"
+                                    className={styles.recordWritePhotoInput}
                                 />
                                 +
                             </label>
                         )}
                     </div>
                     {photos.length > 0 && (
-                        <div className="record-write-photos" style={{ marginTop: '12px' }}>
+                        <div className={styles.recordWritePhotos} style={{ marginTop: '12px' }}>
                             {photos.map((file, i) => (
-                                <div key={i} className="record-write-photo-preview">
+                                <div key={i} className={styles.recordWritePhotoPreview}>
                                     <img
                                         src={URL.createObjectURL(file)}
                                         alt=""
-                                        className="record-write-photo-img"
+                                        className={styles.recordWritePhotoImg}
                                     />
                                     <button
                                         type="button"
-                                        className="record-write-photo-remove"
+                                        className={styles.recordWritePhotoRemove}
                                         onClick={() => removePhoto(i)}
                                         aria-label="삭제"
                                     >
@@ -355,13 +358,13 @@ function RecordWriteView({ onBack, onSave }) {
                 </section>
 
                 {/* 메모 카드 */}
-                <section className="record-write-card">
-                    <label className="record-write-label" htmlFor="record-write-memo">
+                <section className={styles.recordWriteCard}>
+                    <label className={styles.recordWriteLabel} htmlFor="record-write-memo">
                         기록 타임라인
                     </label>
                     <textarea
                         id="record-write-memo"
-                        className="record-write-memo"
+                        className={styles.recordWriteMemo}
                         placeholder="오늘 피부 상태나 따로 적고 싶은 내용을 입력해 주세요."
                         value={memo}
                         onChange={(e) => setMemo(e.target.value)}
@@ -370,20 +373,20 @@ function RecordWriteView({ onBack, onSave }) {
                 </section>
 
                 {/* 다음 예약 카드 */}
-                <section className="record-write-card">
+                <section className={styles.recordWriteCard}>
                     <div
-                        className="record-write-next-header"
+                        className={styles.recordWriteNextHeader}
                         onClick={() => !nextAppointment && setNextAppointment(formatDateToInput(new Date()))}
                     >
-                        <span className="record-write-label" style={{ margin: 0 }}>다음 예약</span>
+                        <span className={styles.recordWriteLabel} style={{ margin: 0 }}>다음 예약</span>
                         {!nextAppointment ? (
-                            <button type="button" className="record-write-next-add-btn">
+                            <button type="button" className={styles.recordWriteNextAddBtn}>
                                 +
                             </button>
                         ) : (
                             <button
                                 type="button"
-                                className="record-write-next-remove-btn"
+                                className={styles.recordWriteNextRemoveBtn}
                                 onClick={(e) => { e.stopPropagation(); setNextAppointment(null); }}
                             >
                                 ×
@@ -394,7 +397,7 @@ function RecordWriteView({ onBack, onSave }) {
                         <div className="record-write-next-content" style={{ marginTop: '12px' }}>
                             <input
                                 type="date"
-                                className="record-write-input"
+                                className={styles.recordWriteInput}
                                 value={nextAppointment}
                                 onChange={(e) => setNextAppointment(e.target.value)}
                             />
@@ -405,7 +408,7 @@ function RecordWriteView({ onBack, onSave }) {
                 {/* 저장 버튼 */}
                 <button
                     type="button"
-                    className="record-write-save"
+                    className={styles.recordWriteSave}
                     onClick={handleSave}
                     disabled={saving}
                 >

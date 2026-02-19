@@ -1,5 +1,6 @@
-'use client'
+'use client';
 
+import styles from './MyTabView.module.css';
 import { useState, useEffect } from 'react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { supabase } from '@/lib/supabase';
@@ -85,11 +86,11 @@ function MyTabView({ onTabChange }) {
     };
 
     return (
-        <div className="my-page">
+        <div className={styles.myPage}>
             {/* Profile Header */}
-            <section className="my-profile">
-                <div className="my-avatar-wrapper">
-                    <div className="my-avatar">
+            <section className={styles.myProfile}>
+                <div className={styles.myAvatarWrapper}>
+                    <div className={styles.myAvatar}>
                         {session?.user?.image ? (
                             <img
                                 src={session.user.image}
@@ -97,45 +98,54 @@ function MyTabView({ onTabChange }) {
                                 style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
                             />
                         ) : (
-                            <span className="my-avatar-emoji">👸</span>
+                            <span className={styles.myAvatarEmoji}>👩‍🎨</span>
                         )}
+                        {session && <span className={styles.onlineBadge}></span>}
                     </div>
-
                 </div>
-                <h2 className="my-username">
-                    {session?.user?.name || '퀸'}
-                </h2>
-                <p className="my-bio">
-                    {session ? `${session.user.email}` : '매일 더 아름다워지는 중 ✨'}
-                </p>
+
+                <div className={styles.profileInfo}>
+                    <h2 className={styles.myUsername}>
+                        {session?.user?.name || 'Beauty Queen'}
+                        {session && <span className={styles.userBadge}>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                        </span>}
+                    </h2>
+                    {session && <p className={styles.userHandle}>@{session.user.email.split('@')[0]}</p>}
+                    <p className={styles.myBio}>
+                        {session ? "" : "로그인하고 당신만의 뷰티 히스토리를 관리하세요 ✨"}
+                    </p>
+                </div>
             </section>
 
             {/* Recent Activity */}
-            <section className="my-activity">
-                <h3 className="my-section-title">최근 활동</h3>
-                <ul className="my-activity-list">
+            <section className={styles.myActivity}>
+                <h3 className={styles.mySectionTitle}>최근 활동</h3>
+                <ul className={styles.myActivityList}>
                     {recentRecords.length > 0 ? (
                         recentRecords.map((record) => (
                             <li
                                 key={record.id}
-                                className="my-activity-item"
+                                className={styles.myActivityItem}
                                 onClick={() => onTabChange?.('record')}
                             >
-                                <span className="my-activity-icon">
+                                <span className={styles.myActivityIcon}>
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
                                         <path d="M9 11l3 3L22 4" />
                                         <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
                                     </svg>
                                 </span>
-                                <div className="my-activity-body">
-                                    <span className="my-activity-title">{record.procedure_title || '일반 기록'}</span>
-                                    <span className="my-activity-date">{formatRelativeDate(record.created_at)}</span>
+                                <div className={styles.myActivityBody}>
+                                    <span className={styles.myActivityTitle}>{record.procedure_title || '일반 기록'}</span>
+                                    <span className={styles.myActivityDate}>{formatRelativeDate(record.created_at)}</span>
                                 </div>
-                                <span className="my-activity-arrow">›</span>
+                                <span className={styles.myActivityArrow}>›</span>
                             </li>
                         ))
                     ) : (
-                        <li className="my-activity-empty">
+                        <li className={styles.myActivityEmpty}>
                             {session ? "최근 활동이 없습니다." : "로그인 후 기록을 확인하세요."}
                         </li>
                     )}
@@ -143,31 +153,31 @@ function MyTabView({ onTabChange }) {
             </section>
 
             {/* Settings Menu */}
-            <section className="my-settings">
-                <h3 className="my-section-title">설정</h3>
-                <ul className="my-menu-list">
+            <section className={styles.mySettings}>
+                <h3 className={styles.mySectionTitle}>본인 인증 및 계정</h3>
+                <ul className={styles.myMenuList}>
                     {!session ? (
-                        <li className="my-menu-item" onClick={() => setShowLoginModal(true)}>
-                            <span className="my-menu-icon">
+                        <li className={styles.myMenuItem} onClick={() => setShowLoginModal(true)}>
+                            <span className={styles.myMenuIcon}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                     <circle cx="12" cy="7" r="4" />
                                 </svg>
                             </span>
-                            <span className="my-menu-label">로그인</span>
-                            <span className="my-menu-arrow">›</span>
+                            <span className={styles.myMenuLabel}>로그인</span>
+                            <span className={styles.myMenuArrow}>›</span>
                         </li>
                     ) : (
-                        <li className="my-menu-item" onClick={handleLogout}>
-                            <span className="my-menu-icon">
+                        <li className={styles.myMenuItem} onClick={handleLogout}>
+                            <span className={styles.myMenuIcon}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
                                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                                     <polyline points="16 17 21 12 16 7" />
                                     <line x1="21" y1="12" x2="9" y2="12" />
                                 </svg>
                             </span>
-                            <span className="my-menu-label">로그아웃</span>
-                            <span className="my-menu-arrow">›</span>
+                            <span className={styles.myMenuLabel}>로그아웃</span>
+                            <span className={styles.myMenuArrow}>›</span>
                         </li>
                     )}
                 </ul>
@@ -175,21 +185,21 @@ function MyTabView({ onTabChange }) {
 
             {/* Google Login Modal */}
             {showLoginModal && (
-                <div className="modal-overlay" onClick={() => setShowLoginModal(false)}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h2 className="modal-title">로그인</h2>
+                <div className={styles.modalOverlay} onClick={() => setShowLoginModal(false)}>
+                    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                        <div className={styles.modalHeader}>
+                            <h2 className={styles.modalTitle}>로그인</h2>
                             <button
-                                className="modal-close"
+                                className={styles.modalClose}
                                 onClick={() => setShowLoginModal(false)}
                                 aria-label="닫기"
                             >
                                 ✕
                             </button>
                         </div>
-                        <div className="modal-body">
-                            <p className="modal-description">뷰티로그에 로그인하고 기록을 동기화하세요</p>
-                            <button className="google-login-btn" onClick={handleGoogleLogin}>
+                        <div className={styles.modalBody}>
+                            <p className={styles.modalDescription}>뷰티로그에 로그인하고 기록을 동기화하세요</p>
+                            <button className={styles.googleLoginBtn} onClick={handleGoogleLogin}>
                                 <svg viewBox="0 0 24 24" width="20" height="20">
                                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />

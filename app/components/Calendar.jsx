@@ -1,5 +1,6 @@
 'use client'
 
+import styles from './Calendar.module.css';
 import { useState, useEffect } from "react";
 import { WEEKDAYS, TYPE_LABELS, RECORD_SAMPLE_BY_TYPE } from "@/constants";
 
@@ -114,15 +115,15 @@ function Calendar() {
 
     if (!expanded) {
         return (
-            <section className="home-calendar home-calendar-week">
-                <div className="calendar-weekdays">
+            <section className={`${styles.homeCalendar}`}>
+                <div className={styles.calendarWeekdays}>
                     {WEEKDAYS.map((w) => (
-                        <span key={w} className="calendar-weekday">
+                        <span key={w} className={styles.calendarWeekday}>
                             {w}
                         </span>
                     ))}
                 </div>
-                <div className="calendar-grid calendar-grid-week">
+                <div className={`${styles.calendarGrid} ${styles.calendarGridWeek}`}>
                     {weekDates.map((date, i) => {
                         const d = date.getDate();
                         const dayTypes = getDayTypesForDate(date).filter((t) => t !== "stamp");
@@ -136,19 +137,19 @@ function Calendar() {
                             <button
                                 key={i}
                                 type="button"
-                                className={`calendar-day ${isTodayDate(date) ? "today" : ""} ${selected ? "selected" : ""} ${showStamp ? "has-stamp" : ""}`}
+                                className={`${styles.calendarDay} ${isTodayDate(date) ? styles.today : ""} ${selected ? styles.selected : ""} ${showStamp ? styles.hasStamp : ""}`}
                                 onClick={() => handleWeekDayClick(date)}
                             >
                                 {d}
                                 {showStamp && (
-                                    <span className="calendar-stamp" aria-label="외모 맘에 드는 날">
+                                    <span className={styles.calendarStamp} aria-label="외모 맘에 드는 날">
                                         ♥
                                     </span>
                                 )}
                                 {dayTypes.length > 0 && (
-                                    <div className="calendar-day-dots">
+                                    <div className={styles.calendarDayDots}>
                                         {dayTypes.map((t) => (
-                                            <span key={t} className={`calendar-dot calendar-dot-${t}`} />
+                                            <span key={t} className={`${styles.calendarDot} ${t === 'derma' ? styles.calendarDotDerma : ''}`} />
                                         ))}
                                     </div>
                                 )}
@@ -158,18 +159,18 @@ function Calendar() {
                 </div>
                 <button
                     type="button"
-                    className="calendar-expand-btn"
+                    className={styles.calendarExpandBtn}
                     onClick={() => setExpanded(true)}
                 >
                     한 달 보기
                 </button>
                 {selectedDate && (
-                    <div className="day-detail">
-                        <div className="day-detail-header">
-                            <h3 className="day-detail-date">{dateLabel}</h3>
+                    <div className={styles.dayDetail}>
+                        <div className={styles.dayDetailHeader}>
+                            <h3 className={styles.dayDetailDate}>{dateLabel}</h3>
                             <button
                                 type="button"
-                                className="day-detail-close"
+                                className={styles.dayDetailClose}
                                 onClick={() => setSelectedDate(null)}
                                 aria-label="닫기"
                             >
@@ -177,16 +178,16 @@ function Calendar() {
                             </button>
                         </div>
                         {selectedDayTypes.length === 0 ? (
-                            <p className="day-detail-empty">이 날은 기록이 없어요</p>
+                            <p className={styles.dayDetailEmpty}>이 날은 기록이 없어요</p>
                         ) : (
-                            <ul className="day-detail-list">
+                            <ul className={styles.dayDetailList}>
                                 {selectedDayTypes.map((typeId) => {
                                     if (typeId === "stamp") {
                                         return (
-                                            <li key={typeId} className="day-detail-item day-detail-item-stamp">
-                                                <span className="day-detail-stamp-icon">♥</span>
-                                                <div className="day-detail-body">
-                                                    <span className="day-detail-category">{TYPE_LABELS.stamp}</span>
+                                            <li key={typeId} className={`${styles.dayDetailItem} ${styles.dayDetailItemStamp}`}>
+                                                <span className={styles.dayDetailStampIcon}>♥</span>
+                                                <div className={styles.dayDetailBody}>
+                                                    <span className={styles.dayDetailCategory}>{TYPE_LABELS.stamp}</span>
                                                 </div>
                                             </li>
                                         );
@@ -194,13 +195,13 @@ function Calendar() {
                                     const records = RECORD_SAMPLE_BY_TYPE[typeId];
                                     const sample = records[selectedDate.day % records.length];
                                     return (
-                                        <li key={typeId} className={`day-detail-item day-detail-item-${typeId}`}>
-                                            <span className="day-detail-dot" />
-                                            <div className="day-detail-body">
-                                                <span className="day-detail-category">{TYPE_LABELS[typeId]}</span>
-                                                <span className="day-detail-title">{sample.title}</span>
+                                        <li key={typeId} className={`${styles.dayDetailItem} ${typeId === 'derma' ? styles.dayDetailItemDerma : ''}`}>
+                                            <span className={styles.dayDetailDot} />
+                                            <div className={styles.dayDetailBody}>
+                                                <span className={styles.dayDetailCategory}>{TYPE_LABELS[typeId]}</span>
+                                                <span className={styles.dayDetailTitle}>{sample.title}</span>
                                                 {sample.memo && (
-                                                    <span className="day-detail-memo">{sample.memo}</span>
+                                                    <span className={styles.dayDetailMemo}>{sample.memo}</span>
                                                 )}
                                             </div>
                                         </li>
@@ -215,33 +216,33 @@ function Calendar() {
     }
 
     return (
-        <section className="home-calendar">
-            <div className="calendar-header">
-                <button type="button" className="calendar-nav" onClick={prevMonth} aria-label="이전 달">
+        <section className={styles.homeCalendar}>
+            <div className={styles.calendarHeader}>
+                <button type="button" className={styles.calendarNav} onClick={prevMonth} aria-label="이전 달">
                     ‹
                 </button>
-                <h2 className="calendar-title">
+                <h2 className={styles.calendarTitle}>
                     {year}년 {month + 1}월
                 </h2>
-                <button type="button" className="calendar-nav" onClick={nextMonth} aria-label="다음 달">
+                <button type="button" className={styles.calendarNav} onClick={nextMonth} aria-label="다음 달">
                     ›
                 </button>
             </div>
             <button
                 type="button"
-                className="calendar-collapse-btn"
+                className={styles.calendarCollapseBtn}
                 onClick={() => setExpanded(false)}
             >
                 일주일만 보기
             </button>
-            <div className="calendar-weekdays">
+            <div className={styles.calendarWeekdays}>
                 {WEEKDAYS.map((w) => (
-                    <span key={w} className="calendar-weekday">
+                    <span key={w} className={styles.calendarWeekday}>
                         {w}
                     </span>
                 ))}
             </div>
-            <div className="calendar-grid">
+            <div className={styles.calendarGrid}>
                 {days.map((d, i) => {
                     const dayTypes = getDayTypes(d).filter((t) => t !== "stamp");
                     const showStamp = hasStamp(d);
@@ -249,20 +250,20 @@ function Calendar() {
                         <button
                             key={i}
                             type="button"
-                            className={`calendar-day ${d === null ? "empty" : ""} ${isToday(d) ? "today" : ""} ${selectedDate && d === selectedDate.day ? "selected" : ""} ${showStamp ? "has-stamp" : ""}`}
+                            className={`${styles.calendarDay} ${d === null ? styles.empty : ""} ${isToday(d) ? styles.today : ""} ${selectedDate && d === selectedDate.day ? styles.selected : ""} ${showStamp ? styles.hasStamp : ""}`}
                             onClick={() => handleDayClick(d)}
                             disabled={d === null}
                         >
                             {d}
                             {showStamp && (
-                                <span className="calendar-stamp" aria-label="외모 맘에 드는 날">
+                                <span className={styles.calendarStamp} aria-label="외모 맘에 드는 날">
                                     ♥
                                 </span>
                             )}
                             {dayTypes.length > 0 && (
-                                <div className="calendar-day-dots">
+                                <div className={styles.calendarDayDots}>
                                     {dayTypes.map((t) => (
-                                        <span key={t} className={`calendar-dot calendar-dot-${t}`} />
+                                        <span key={t} className={`${styles.calendarDot} ${t === 'derma' ? styles.calendarDotDerma : ''}`} />
                                     ))}
                                 </div>
                             )}
@@ -272,12 +273,12 @@ function Calendar() {
             </div>
 
             {selectedDate && (
-                <div className="day-detail">
-                    <div className="day-detail-header">
-                        <h3 className="day-detail-date">{dateLabel}</h3>
+                <div className={styles.dayDetail}>
+                    <div className={styles.dayDetailHeader}>
+                        <h3 className={styles.dayDetailDate}>{dateLabel}</h3>
                         <button
                             type="button"
-                            className="day-detail-close"
+                            className={styles.dayDetailClose}
                             onClick={() => setSelectedDate(null)}
                             aria-label="닫기"
                         >
@@ -285,16 +286,16 @@ function Calendar() {
                         </button>
                     </div>
                     {selectedDayTypes.length === 0 ? (
-                        <p className="day-detail-empty">이 날은 기록이 없어요</p>
+                        <p className={styles.dayDetailEmpty}>이 날은 기록이 없어요</p>
                     ) : (
-                        <ul className="day-detail-list">
+                        <ul className={styles.dayDetailList}>
                             {selectedDayTypes.map((typeId) => {
                                 if (typeId === "stamp") {
                                     return (
-                                        <li key={typeId} className="day-detail-item day-detail-item-stamp">
-                                            <span className="day-detail-stamp-icon">♥</span>
-                                            <div className="day-detail-body">
-                                                <span className="day-detail-category">{TYPE_LABELS.stamp}</span>
+                                        <li key={typeId} className={`${styles.dayDetailItem} ${styles.dayDetailItemStamp}`}>
+                                            <span className={styles.dayDetailStampIcon}>♥</span>
+                                            <div className={styles.dayDetailBody}>
+                                                <span className={styles.dayDetailCategory}>{TYPE_LABELS.stamp}</span>
                                             </div>
                                         </li>
                                     );
@@ -302,13 +303,13 @@ function Calendar() {
                                 const records = RECORD_SAMPLE_BY_TYPE[typeId];
                                 const sample = records[selectedDate.day % records.length];
                                 return (
-                                    <li key={typeId} className={`day-detail-item day-detail-item-${typeId}`}>
-                                        <span className="day-detail-dot" />
-                                        <div className="day-detail-body">
-                                            <span className="day-detail-category">{TYPE_LABELS[typeId]}</span>
-                                            <span className="day-detail-title">{sample.title}</span>
+                                    <li key={typeId} className={`${styles.dayDetailItem} ${typeId === 'derma' ? styles.dayDetailItemDerma : ''}`}>
+                                        <span className={styles.dayDetailDot} />
+                                        <div className={styles.dayDetailBody}>
+                                            <span className={styles.dayDetailCategory}>{TYPE_LABELS[typeId]}</span>
+                                            <span className={styles.dayDetailTitle}>{sample.title}</span>
                                             {sample.memo && (
-                                                <span className="day-detail-memo">{sample.memo}</span>
+                                                <span className={styles.dayDetailMemo}>{sample.memo}</span>
                                             )}
                                         </div>
                                     </li>

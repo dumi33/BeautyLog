@@ -1,5 +1,6 @@
-'use client'
+'use client';
 
+import styles from './Layout.module.css';
 import { useState } from "react";
 import TopBar from "./components/TopBar";
 import BottomNav from "./components/BottomNav";
@@ -18,9 +19,9 @@ export default function Home() {
     const [selectedRecord, setSelectedRecord] = useState(null);
 
     return (
-        <div className="app-layout">
+        <div className={styles.appLayout}>
             <TopBar />
-            <div className="app-content">
+            <div className={styles.appContent}>
                 {view === "record-write" ? (
                     <RecordWriteView
                         onBack={() => setView("home")}
