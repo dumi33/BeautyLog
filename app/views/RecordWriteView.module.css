@@ -240,25 +240,40 @@
 .recordWriteSave {
     width: 100%;
     padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     font-size: 1.05rem;
-    font-weight: 600;
-    color: #fff;
-    background: var(--point);
-    border: none;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    font-weight: 700;
+    color: var(--point);
+    background: #ffffff;
+    border: 1.5px solid rgba(224, 139, 139, 0.45);
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .recordWriteSave:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+    border-color: rgba(224, 139, 139, 0.75);
+    box-shadow: 0 10px 25px rgba(224, 139, 139, 0.15);
 }
 
 .recordWriteSave:disabled {
-    opacity: 0.7;
+    opacity: 0.5;
     cursor: not-allowed;
+    background: var(--bg-soft);
+    color: var(--text-soft);
+    border-color: var(--border);
+    box-shadow: none;
+}
+
+:global(html.dark) .recordWriteSave {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--point);
+    border: 1.5px solid rgba(224, 139, 139, 0.4);
 }
 
 .recordWriteNextHeader {
@@ -308,7 +323,7 @@
 /* Since it's used in many Views, I'll make a common list-header style or just copy for now */
 .listHeader {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     gap: 12px;
     margin-bottom: 24px;
