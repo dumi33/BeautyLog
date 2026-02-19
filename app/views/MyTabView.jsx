@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { supabase } from '@/lib/supabase';
 
-function MyTabView({ onTabChange }) {
+function MyTabView({ onTabChange, onRecordClick }) {
     const { data: session, status } = useSession();
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [recentRecords, setRecentRecords] = useState([]);
@@ -129,12 +129,13 @@ function MyTabView({ onTabChange }) {
                             <li
                                 key={record.id}
                                 className={styles.myActivityItem}
-                                onClick={() => onTabChange?.('record')}
+                                onClick={() => onRecordClick?.(record)}
                             >
                                 <span className={styles.myActivityIcon}>
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
-                                        <path d="M9 11l3 3L22 4" />
-                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
+                                        <path d="M12 3c.167 2.667 1.333 3.833 4 4-2.667.167-3.833 1.333-4 4-.167-2.667-1.333-3.833-4-4 2.667-.167 3.833-1.333 4-4Z" />
+                                        <path d="M19 11c.125 2 .875 2.75 2.5 3-1.625.25-2.375 1-2.5 3-.125-2-.875-2.75-2.5-3 1.625-.25 2.375-1 2.5-3Z" />
+                                        <path d="M5 13c.125 2 .875 2.75 2.5 3-1.625.25-2.375 1-2.5 3-.125-2-.875-2.75-2.5-3 1.625-.25 2.375-1 2.5-3Z" />
                                     </svg>
                                 </span>
                                 <div className={styles.myActivityBody}>

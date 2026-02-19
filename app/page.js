@@ -20,7 +20,10 @@ export default function Home() {
 
     return (
         <div className={styles.appLayout}>
-            <TopBar />
+            <TopBar onLogoClick={() => {
+                setTab("home");
+                setView("home");
+            }} />
             <div className={styles.appContent}>
                 {view === "record-write" ? (
                     <RecordWriteView
@@ -58,7 +61,13 @@ export default function Home() {
                         }}
                     />
                 ) : (
-                    <MyTabView onTabChange={setTab} />
+                    <MyTabView
+                        onTabChange={setTab}
+                        onRecordClick={(record) => {
+                            setSelectedRecord(record);
+                            setView("record-detail");
+                        }}
+                    />
                 )}
             </div>
             <BottomNav

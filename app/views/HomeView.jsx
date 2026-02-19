@@ -117,7 +117,9 @@ function HomeView({ onMenuClick }) {
               </span>
             </div>
             {RECENT_PROCEDURE.hasBeforeAfter && (
-              <span className={styles.recentCardBeforeAfter}>Before / After 보기</span>
+              <span className={styles.recentCardBeforeAfter}>
+                Before / After 보기 <span className={styles.ctaArrow}>→</span>
+              </span>
             )}
           </article>
         </section>
@@ -129,7 +131,7 @@ function HomeView({ onMenuClick }) {
             className={styles.homeCtaPrimary}
             onClick={handleRecordAdd}
           >
-            기록 추가
+            기록 추가 <span className={styles.ctaArrow}>→</span>
           </button>
         </section>
 
@@ -140,7 +142,9 @@ function HomeView({ onMenuClick }) {
 
         {/* 시술 기반 맞춤 추천: 최근 시술·예약일 기준 동적 노출 */}
         <section className={styles.homeRecommendSection}>
-          <h2 className={styles.homeRecommendTitle}>{USER_DISPLAY_NAME}님을 위한 맞춤 관리</h2>
+          <h2 className={styles.homeRecommendTitle}>
+            {session?.user?.name ? session.user.name.slice(1) : USER_DISPLAY_NAME}님을 위한 맞춤 관리
+          </h2>
           <div className={styles.homeRecommendScroll}>
             {/* ① 지금 필요한 관리 — D-day 기반 */}
             <article className={styles.homeRecommendCard}>

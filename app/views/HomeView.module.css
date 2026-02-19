@@ -23,15 +23,15 @@
     min-width: 0;
     flex: 1;
     background: var(--surface-card);
-    border-radius: var(--radius-xl);
+    border-radius: 20px;
     box-shadow: var(--shadow-card);
     border: 1px solid var(--border);
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 :global(html.dark) .homeSummaryBadge {
     background: #121212;
-    border-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .homeSummaryBadge:hover {
@@ -55,11 +55,11 @@
 }
 
 .homeSummaryBadgeBtn {
-    border: none;
     cursor: pointer;
     text-align: left;
     font: inherit;
     color: inherit;
+    background: inherit;
 }
 
 .homeSummaryBadgeBtn:focus {
@@ -81,7 +81,7 @@
 .recentCard {
     background: var(--surface-card);
     border: 1px solid var(--border);
-    border-radius: 24px;
+    border-radius: 20px;
     padding: 24px;
     box-shadow: var(--shadow-card);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -89,7 +89,7 @@
 
 :global(html.dark) .recentCard {
     background: #121212;
-    border-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .recentCard:hover {
@@ -167,23 +167,38 @@
 }
 
 .recentCardBeforeAfter {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     font-size: 0.95rem;
-    font-weight: 600;
-    color: #fff;
-    background: var(--point);
-    border: none;
-    border-radius: var(--radius-lg);
+    font-weight: 700;
+    color: var(--point);
+    background: #ffffff;
+    border: 1.5px solid rgba(224, 139, 139, 0.45);
+    border-radius: 14px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
 }
 
 .recentCardBeforeAfter:hover {
-    opacity: 0.9;
-    transform: scale(0.98);
+    transform: translateY(-1px);
+    border-color: rgba(224, 139, 139, 0.7);
+    box-shadow: 0 4px 12px rgba(224, 139, 139, 0.1);
+}
+
+:global(html.dark) .recentCardBeforeAfter {
+    background: rgba(255, 255, 255, 0.05);
+    /* Soft glass effect */
+    color: var(--point);
+    border: 1.5px solid rgba(224, 139, 139, 0.4);
+}
+
+.recentCardBeforeAfter:hover .ctaArrow {
+    transform: translateX(3px);
 }
 
 .homeCtaSection {
@@ -192,36 +207,93 @@
 
 .homeCtaPrimary {
     width: 100%;
-    padding: 20px;
-    font-size: 1.1rem;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 1.05rem;
     font-weight: 700;
-    color: #fff;
-    background: var(--point);
-    border: none;
-    border-radius: 24px;
-    box-shadow: 0 8px 25px rgba(224, 139, 139, 0.4);
+    color: var(--point);
+    background: #ffffff;
+    border: 1.5px solid rgba(224, 139, 139, 0.45);
+    /* Prominent pink border */
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .homeCtaPrimary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(224, 139, 139, 0.5);
+    border-color: rgba(224, 139, 139, 0.75);
+    /* Stronger pink on hover */
+    box-shadow: 0 10px 25px rgba(224, 139, 139, 0.15);
+}
+
+:global(html.dark) .homeCtaPrimary {
+    background: rgba(255, 255, 255, 0.05);
+    /* Soft glass effect */
+    color: var(--point);
+    /* Maintain pink in dark mode for this specific button */
+    border: 1.5px solid rgba(224, 139, 139, 0.4);
+}
+
+.ctaArrow {
+    font-size: 1.3rem;
+    line-height: 1;
+    transition: transform 0.3s ease;
+}
+
+.homeCtaPrimary:hover .ctaArrow {
+    transform: translateX(5px);
+}
+
+.homeCalendarSection {
+    margin-bottom: 36px;
+}
+
+.homeRecommendSection {
+    margin-bottom: 32px;
+}
+
+.homeRecommendTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    padding-left: 4px;
+}
+
+.homeRecommendScroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 4px 4px 16px 4px;
+    /* Space for shadow and scrollbar */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.homeRecommendScroll::-webkit-scrollbar {
+    display: none;
 }
 
 .homeRecommendCard {
     flex: 0 0 280px;
+    scroll-snap-align: start;
     min-width: 280px;
-    padding: 20px;
+    padding: 24px;
     background: var(--surface-card);
     border: 1px solid var(--border);
-    border-radius: 24px;
+    border-radius: 20px;
     box-shadow: var(--shadow-card);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 :global(html.dark) .homeRecommendCard {
     background: #121212;
-    border-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .homeRecommendTag {

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import styles from './TopBar.module.css';
 
-function TopBar() {
+function TopBar({ onLogoClick }) {
     const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
@@ -30,7 +30,13 @@ function TopBar() {
 
     return (
         <header className={styles.topBar}>
-            <div className={styles.topBarBrand}>
+            <div
+                className={styles.topBarBrand}
+                onClick={onLogoClick}
+                role="button"
+                tabIndex={0}
+                aria-label="홈으로 이동"
+            >
                 {/* Logo remains centered */}
                 <span className={styles.topBarLogoIcon} aria-hidden>
                     <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

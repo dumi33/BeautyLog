@@ -95,25 +95,30 @@
 
 .statPill {
     background: var(--bg-soft);
-    padding: 10px 20px;
-    border-radius: 20px;
+    padding: 10px 22px;
+    border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     gap: 8px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
 }
 
 :global(html.dark) .statPill {
-    background: #1c1c1e;
+    background: #121212;
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .statValue {
     font-weight: 700;
     color: var(--text);
+    font-size: 1rem;
 }
 
 .statLabel {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-soft);
+    font-weight: 500;
 }
 
 .profileActions {
@@ -123,25 +128,32 @@
 }
 
 .editProfileBtn {
-    padding: 10px 32px;
-    border-radius: 20px;
-    border: none;
-    background: var(--text);
-    color: var(--bg);
-    font-weight: 600;
-    font-size: 0.9rem;
+    padding: 12px 36px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border);
+    background: var(--surface-card);
+    color: var(--text);
+    font-weight: 700;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 :global(html.dark) .editProfileBtn {
-    background: #2c2c2e;
-    color: #fff;
+    background: #121212;
+    /* Matching the matte dark style of the image */
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .editProfileBtn:hover {
-    transform: scale(0.98);
-    opacity: 0.9;
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+:global(html.dark) .editProfileBtn:hover {
+    background: #1c1c1e;
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .mySectionTitle {
@@ -158,33 +170,36 @@
 
 .myActivityList {
     list-style: none;
-    background: var(--surface-card);
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: var(--shadow-card);
-}
-
-:global(html.dark) .myActivityList {
-    background: #121212;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .myActivityItem {
     display: flex;
     align-items: center;
-    padding: 18px 20px;
+    padding: 16px 20px;
     gap: 16px;
     cursor: pointer;
-    transition: background 0.2s;
-    border-bottom: 1px solid var(--border);
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.myActivityItem:last-child {
-    border-bottom: none;
+:global(html.dark) .myActivityItem {
+    background: #121212;
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .myActivityItem:hover {
+    transform: scale(1.02);
     background: var(--bg-soft);
+}
+
+:global(html.dark) .myActivityItem:hover {
+    background: #1c1c1e;
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .myActivityIcon {
@@ -199,14 +214,34 @@
     flex-shrink: 0;
 }
 
+.myActivityBody {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
 .myActivityTitle {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .myActivityDate {
     font-size: 0.85rem;
+    color: var(--text-soft);
+    flex-shrink: 0;
+}
+
+.myActivityEmpty {
+    padding: 32px 24px;
+    text-align: center;
+    font-size: 0.95rem;
     color: var(--text-soft);
 }
 
@@ -216,42 +251,58 @@
 
 .myMenuList {
     list-style: none;
-    background: var(--surface-card);
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: var(--shadow-card);
-}
-
-:global(html.dark) .myMenuList {
-    background: #121212;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .myMenuItem {
     display: flex;
     align-items: center;
-    padding: 18px 20px;
-    gap: 16px;
+    justify-content: center;
+    padding: 14px 24px;
+    gap: 10px;
     cursor: pointer;
-    transition: background 0.2s;
-    border-bottom: 1px solid var(--border);
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.myMenuItem:last-child {
-    border-bottom: none;
+:global(html.dark) .myMenuItem {
+    background: #121212;
+    /* Matte dark style from the image */
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.myMenuItem:hover {
+    transform: scale(1.02);
+    background: var(--bg-soft);
+}
+
+:global(html.dark) .myMenuItem:hover {
+    background: #1c1c1e;
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.myMenuIcon {
+    width: 20px;
+    height: 20px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .myMenuLabel {
-    flex: 1;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 700;
     color: var(--text);
 }
 
 .myMenuArrow {
-    font-size: 1.25rem;
-    color: var(--text-soft);
-    opacity: 0.5;
+    display: none;
+    /* Hide arrow for the pill button style */
 }
 
 /* Modal and Google Login Styles remain for functionality but with dark mode tweaks if needed */
@@ -287,7 +338,37 @@
 .modalTitle {
     font-size: 1.5rem;
     font-weight: 800;
-    margin-bottom: 12px;
+}
+
+.modalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.modalClose {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: var(--bg-soft);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+:global(html.dark) .modalClose {
+    background: #2c2c2e;
+}
+
+.modalClose:hover {
+    background: var(--point-soft);
+    color: var(--point);
 }
 
 .modalDescription {

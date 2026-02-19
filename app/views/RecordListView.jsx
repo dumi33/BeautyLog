@@ -88,14 +88,6 @@ function RecordListView({ title, onBack, onRecordClick }) {
         <div className={styles.listScreen}>
             <header className={styles.listHeader}>
                 <div className={styles.headerLeft}>
-                    <button
-                        type="button"
-                        className={styles.backBtn}
-                        onClick={onBack}
-                        aria-label="뒤로 가기"
-                    >
-                        ‹
-                    </button>
                     <h1 className={styles.listTitle}>{title}</h1>
                 </div>
 
